@@ -10,17 +10,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
-public class TankDrive extends CommandBase {
+public class ArcadeDrive extends CommandBase {
 
   private final DriveTrain m_driveTrain;
-  private final DoubleSupplier m_leftSpeed;
-  private final DoubleSupplier m_rightSpeed;
+  private final DoubleSupplier m_forward;
+  private final DoubleSupplier m_turn;
 
   /** Creates a new TankDrive. */
-  public TankDrive(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed, DriveTrain driveTrain) {
+  public ArcadeDrive(DoubleSupplier forward, DoubleSupplier turn, DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
-    m_leftSpeed = leftSpeed;
-    m_rightSpeed = rightSpeed;
+    m_forward = forward;
+    m_turn = turn;
     addRequirements(m_driveTrain);
   }
 
@@ -34,7 +34,7 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    m_driveTrain.tankDrive(m_leftSpeed.getAsDouble(), m_rightSpeed.getAsDouble());
+    m_driveTrain.arcadeDrive(m_forward.getAsDouble(), m_turn.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
