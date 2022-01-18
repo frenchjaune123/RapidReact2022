@@ -16,11 +16,14 @@ public class ArcadeDrive extends CommandBase {
   private final DoubleSupplier m_forward;
   private final DoubleSupplier m_turn;
 
+  private static double m_speed;
+
   /** Creates a new TankDrive. */
   public ArcadeDrive(DoubleSupplier forward, DoubleSupplier turn, DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
     m_forward = forward;
     m_turn = turn;
+    m_speed = 1;
     addRequirements(m_driveTrain);
   }
 
@@ -34,7 +37,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    m_driveTrain.arcadeDrive(m_forward.getAsDouble(), m_turn.getAsDouble());
+    m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_speed * m_turn.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -47,5 +50,9 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public static void setSpeed(double speed) {
+    m_speed = speed; 
   }
 }

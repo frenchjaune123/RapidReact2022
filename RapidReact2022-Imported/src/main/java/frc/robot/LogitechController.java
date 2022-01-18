@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class LogitechController extends Joystick {
    
     public JoystickButton l_button1 = new JoystickButton(this, 1);
-    public JoystickButton l_button2 = new JoystickButton(this, 2);
+    public JoystickButton l_button2 = new JoystickButton(this, 2); //the button 4 slow mode
     public JoystickButton l_button3 = new JoystickButton(this, 3);
     public JoystickButton l_button4 = new JoystickButton(this, 4);
     public JoystickButton l_button5 = new JoystickButton(this, 5);
@@ -44,7 +44,7 @@ public class LogitechController extends Joystick {
     //Up is positive
     //Down is negative
     public double getThrottle() {
-        return -this.getRawAxis(4);
+        return -this.getThrottle();
     }
     
     
