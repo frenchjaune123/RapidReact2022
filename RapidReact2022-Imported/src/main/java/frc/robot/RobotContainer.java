@@ -29,7 +29,7 @@ public class RobotContainer {
   // private final CrusaderController m_controller0 = new CrusaderController(Constants.kController0);
   // private final CrusaderController m_controller1 = new CrusaderController(Constants.kController1);
   private final LogitechController l_controller0 = new LogitechController(Constants.kController0);
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
+  // private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -54,8 +54,8 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(
       new ArcadeDrive(
-        () -> -m_speedLimiter.calculate(l_controller0.getYAxis()), 
-        () -> -m_speedLimiter.calculate(l_controller0.getZAxis()), m_drivetrain)
+        () -> l_controller0.getZAxis(), 
+        () -> -l_controller0.getYAxis(), m_drivetrain)
     );
   }
 

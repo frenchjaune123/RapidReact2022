@@ -50,11 +50,11 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    double leftMtr = throttle + turn;
-    double rightMtr = throttle - turn;
+    double leftMtr = throttle - turn;
+    double rightMtr = throttle + turn;
 
-    // m_drive.arcadeDrive(throttle, turn);
-    m_drive.tankDrive(leftMtr, rightMtr);
+    m_drive.arcadeDrive(throttle, turn);
+    // m_drive.tankDrive(leftMtr, rightMtr);
   }
 
   public void tankDrive(double left, double right) {
