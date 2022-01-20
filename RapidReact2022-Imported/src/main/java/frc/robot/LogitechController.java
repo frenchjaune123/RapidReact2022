@@ -2,13 +2,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class LogitechController extends Joystick {
    
-    public JoystickButton l_button1 = new JoystickButton(this, 1);
-    public JoystickButton l_button2 = new JoystickButton(this, 2); //the button 4 slow mode
-    public JoystickButton l_button3 = new JoystickButton(this, 3);
-    public JoystickButton l_button4 = new JoystickButton(this, 4);
+    // public JoystickButton l_trigger1 = new Trigger();
+    public JoystickButton l_trigger1 = new JoystickButton(this, 1);
+    public JoystickButton l_button2 = new JoystickButton(this, 2); 
+    public JoystickButton l_button3 = new JoystickButton(this, 3);  //this button for slow mode
+    public JoystickButton l_button4 = new JoystickButton(this, 4);  //this button for shooter
     public JoystickButton l_button5 = new JoystickButton(this, 5);
     public JoystickButton l_button6 = new JoystickButton(this, 6);
     public JoystickButton l_button7 = new JoystickButton(this, 7);
@@ -47,5 +49,7 @@ public class LogitechController extends Joystick {
         return -this.getThrottle();
     }
     
-    
+    // public double getTrigger() {
+    //     return this.getRawAxis(1);
+    // }
 }

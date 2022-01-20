@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -30,7 +32,8 @@ public class RobotContainer {
   // private final CrusaderController m_controller0 = new CrusaderController(Constants.kController0);
   // private final CrusaderController m_controller1 = new CrusaderController(Constants.kController1);
   private final LogitechController l_controller0 = new LogitechController(Constants.kController0);
-  // private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
+  
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,7 +71,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     l_controller0.l_button3.toggleWhenPressed(new SlowMode());
-  
+    l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-1, m_shooterSubsystem));
   }
 
   /**

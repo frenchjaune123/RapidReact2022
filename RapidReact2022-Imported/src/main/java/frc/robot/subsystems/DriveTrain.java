@@ -31,8 +31,8 @@ public class DriveTrain extends SubsystemBase {
   
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
-    leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSPX0);
-    rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSPX0);
+    leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
+    rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
     
     m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
     m_right = new MotorControllerGroup(rightMotor0, rightMotor0);
