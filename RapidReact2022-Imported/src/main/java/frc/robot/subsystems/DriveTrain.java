@@ -5,9 +5,13 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,6 +33,8 @@ public class DriveTrain extends SubsystemBase {
   private final MotorControllerGroup m_left;
   private final MotorControllerGroup m_right;
   
+  private final Gyro m_gyro;
+
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
@@ -41,6 +47,11 @@ public class DriveTrain extends SubsystemBase {
 
     leftMotor0.stopMotor();
     rightMotor0.stopMotor();
+
+    m_gyro = new ADXRS450_Gyro();
+    m_gyro.calibrate();
+    m_gyro.reset();
+    Shuffleboard.getTab("Example tab").add((Sendable) m_gyro);
   }
 
   public void setLeftMotors(double speed) {
@@ -68,11 +79,16 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    log();
     // This method will be called once per scheduler run
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public void log() {
+    // Shuffleboard.getTab("Example tab").add((Sendable) m_gyro);
   }
 }
