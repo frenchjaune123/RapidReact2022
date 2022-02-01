@@ -21,8 +21,8 @@ public class SlowMode extends CommandBase {
   public void initialize() {
     
     if (isSlow == false) {
-      ArcadeDrive.setSpeed(0.45); //0.4 seems to be too slow, 0.5 is okay, testing 0.45
-      isSlow = true;
+      ArcadeDrive.setSpeed(0.45); //0.4 seems to be too slow, 0.5 is okay, testing 0.45 
+      isSlow = true;              //(0.45 with shooter doesn't move, so choosing 0.5)
       isFinished = true;
     } else if (isSlow == true) {
       ArcadeDrive.setSpeed(1);
@@ -34,7 +34,7 @@ public class SlowMode extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // SmartDashboard.putBoolean("isSlow", isSlow);
+    SmartDashboard.putBoolean("isSlow", isSlow);
 
   }
 

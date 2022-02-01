@@ -14,11 +14,15 @@ package frc.robot;
  */
 public final class Constants {
 
+    //PWM Motors
+    public static final int DRIVE_LEFT_VICTORSP0 = 4;
+    // public static final int DRIVE_LEFT_VICTORSP1 = 12;
+    public static final int DRIVE_RIGHT_VICTORSP0 = 5;
+    // public static final int DRIVE_RIGHT_VICTORSP1 = 13;
+    public static final int SHOOTER_VICTORSP0 = 0;
+
     //CAN Motors
-    public static final int DRIVE_LEFT_VICTORSPX0 = 4;
-    // public static final int DRIVE_LEFT_VICTORSPX1 = 12;
-    public static final int DRIVE_RIGHT_VICTORSPX0 = 5;
-    // public static final int DRIVE_RIGHT_VICTORSPX1 = 13;
+
 
     //Controllers
     public static final int kController0 = 0;
