@@ -47,6 +47,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotor0.stopMotor();
 
     m_gyro = new ADXRS450_Gyro();
+    m_gyro.calibrate();
+    // m_gyro.reset();
+
+    // addChild("Drive", m_drive);
   }
 
   public void setLeftMotors(double speed) {
@@ -85,5 +89,6 @@ public class DriveTrain extends SubsystemBase {
   
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
+    // System.out.println(m_gyro.getAngle());
   }
 }
