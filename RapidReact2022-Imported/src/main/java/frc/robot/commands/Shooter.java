@@ -11,10 +11,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class Shooter extends CommandBase {
   private final ShooterSubsystem m_ShooterSubsystem;
-  private final double m_input;
+  private DoubleSupplier m_input; //DoubleSupplier for XboXTrigger
 
   /** Creates a new Shooter. */
-  public Shooter(double input, ShooterSubsystem shooterSubsystem) {
+  public Shooter(DoubleSupplier input, ShooterSubsystem shooterSubsystem) {
     m_ShooterSubsystem = shooterSubsystem;
     m_input = input;
 
@@ -29,7 +29,7 @@ public class Shooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.shoot(m_input);
+    m_ShooterSubsystem.shoot(m_input.getAsDouble()); //getAsDouble()
   }
 
   // Called once the command ends or is interrupted.
