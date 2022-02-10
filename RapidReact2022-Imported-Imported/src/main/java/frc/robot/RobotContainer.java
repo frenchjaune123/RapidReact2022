@@ -65,8 +65,8 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(
       new TankDrive(
-        () -> -m_controller0.getLeftStickY(), 
-        () -> m_controller0.getRightStickY(), m_drivetrain)
+        () -> m_controller0.getLeftStickY(), 
+        () -> -m_controller0.getRightStickY(), m_drivetrain)
     );
 
     m_shooterSubsystem.setDefaultCommand(

@@ -26,11 +26,14 @@ import frc.robot.commands.SlowMode;
 
 public class DriveTrain extends SubsystemBase {
   // private final DifferentialDrive m_drive;
-  private final VictorSP leftMotor0;
-  private final VictorSP rightMotor0;
+  // private final VictorSP leftMotor0;
+  // private final VictorSP rightMotor0;
   
-  // private final CANVenom leftMotor0;
-  // private final CANVenom rightMotor0;
+  private final CANVenom leftMotor0;
+  private final CANVenom leftMotor1;
+
+  private final CANVenom rightMotor0;
+  private final CANVenom rightMotor1;
 
   private final DifferentialDrive m_drive;
   private final MotorControllerGroup m_left;
@@ -40,13 +43,20 @@ public class DriveTrain extends SubsystemBase {
   
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
-    leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
-    rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
+    // leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
+    // rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
 
-    // leftMotor0 = new CANVenom();
-    
+    //only one motor leads MANNNN
+    leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
+    leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
+    leftMotor0.follow(leftMotor1); //leftMotor1 is leading
+
+    rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
+    rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
+    rightMotor0.follow(rightMotor1); //rightMotor0 is leading
+
     m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
-    m_right = new MotorControllerGroup(rightMotor0, rightMotor0);
+    m_right = new MotorControllerGroup(rightMotor0, rightMotor1);
     m_drive = new DifferentialDrive(m_left, m_right);
 
 

@@ -23,8 +23,10 @@ public final class Constants {
     public static final int SHOOTER_VICTORSP0 = 0;
 
     //CAN Motors
-    public static final int DRIVE_RIGHT_VENOM0 = 0;
-    public static final int DRIVE_LEFT_VENOM0 = 1;
+    public static final int DRIVE_LEFT_VENOM0 = 0;
+    public static final int DRIVE_LEFT_VENOM1 = 1;
+    public static final int DRIVE_RIGHT_VENOM0 = 2;
+    public static final int DRIVE_RIGHT_VENOM1 = 3;
 
     //Controllers
     public static final int kController0 = 0;
