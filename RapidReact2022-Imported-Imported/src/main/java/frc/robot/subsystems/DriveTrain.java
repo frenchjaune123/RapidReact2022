@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 
+import com.playingwithfusion.CANVenom;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -27,6 +29,9 @@ public class DriveTrain extends SubsystemBase {
   private final VictorSP leftMotor0;
   private final VictorSP rightMotor0;
   
+  // private final CANVenom leftMotor0;
+  // private final CANVenom rightMotor0;
+
   private final DifferentialDrive m_drive;
   private final MotorControllerGroup m_left;
   private final MotorControllerGroup m_right;
@@ -37,6 +42,8 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain() {
     leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
     rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
+
+    // leftMotor0 = new CANVenom();
     
     m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
     m_right = new MotorControllerGroup(rightMotor0, rightMotor0);
