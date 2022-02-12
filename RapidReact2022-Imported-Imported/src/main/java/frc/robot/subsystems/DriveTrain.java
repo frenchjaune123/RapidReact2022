@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 
 import com.playingwithfusion.CANVenom;
+import com.playingwithfusion.CANVenom.ControlMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -49,19 +50,21 @@ public class DriveTrain extends SubsystemBase {
     //only one motor leads MANNNN
     leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
     leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
+    // leftMotor1.setCommand(ControlMode.FollowTheLeader, 6702); //leftMotor1 leading, 6677 is lead motor
     leftMotor0.follow(leftMotor1); //leftMotor1 is leading
 
     rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
     rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
+    // rightMotor1.setCommand(ControlMode.FollowTheLeader, 6514); //rightMotor1 ias leading, 6512 is lead
     rightMotor0.follow(rightMotor1); //rightMotor1 is leading
 
-    // m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
+    // m_left = new MotorControllerGroup(leftMotor0, leftMotor1);
     // m_right = new MotorControllerGroup(rightMotor0, rightMotor1);
-    m_drive = new DifferentialDrive(leftMotor0, rightMotor0);
+    m_drive = new DifferentialDrive(leftMotor1, rightMotor1);
+    // m_drive = new DifferentialDrive(m_left, m_right);
 
-
-    leftMotor0.stopMotor();
-    rightMotor0.stopMotor();
+    // leftMotor0.stopMotor();
+    // rightMotor0.stopMotor();
 
     m_gyro = new ADXRS450_Gyro();
     m_gyro.calibrate();
@@ -107,5 +110,9 @@ public class DriveTrain extends SubsystemBase {
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // System.out.println(m_gyro.getAngle());
+    SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
+    SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
+    SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
+    SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
   }
 }
