@@ -36,8 +36,8 @@ public class DriveTrain extends SubsystemBase {
   private final CANVenom rightMotor1;
 
   private final DifferentialDrive m_drive;
-  private final MotorControllerGroup m_left;
-  private final MotorControllerGroup m_right;
+  // private final MotorControllerGroup m_left;
+  // private final MotorControllerGroup m_right;
 
   private final Gyro m_gyro;
   
@@ -53,11 +53,11 @@ public class DriveTrain extends SubsystemBase {
 
     rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
     rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
-    rightMotor0.follow(rightMotor1); //rightMotor0 is leading
+    rightMotor0.follow(rightMotor1); //rightMotor1 is leading
 
-    m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
-    m_right = new MotorControllerGroup(rightMotor0, rightMotor1);
-    m_drive = new DifferentialDrive(m_left, m_right);
+    // m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
+    // m_right = new MotorControllerGroup(rightMotor0, rightMotor1);
+    m_drive = new DifferentialDrive(leftMotor0, rightMotor0);
 
 
     leftMotor0.stopMotor();
