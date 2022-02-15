@@ -32,10 +32,10 @@ public class TurnInPlace extends CommandBase {
   @Override
   public void execute() {
     if (m_angle > 0) {
-      m_driveTrain.tankDrive(-m_speed, m_speed);
+      m_driveTrain.tankDrive(m_speed, m_speed);
     } 
     if (m_angle < 0) {
-      m_driveTrain.tankDrive(m_speed, -m_speed);
+      m_driveTrain.tankDrive(m_speed, m_speed);
     }
   }
 

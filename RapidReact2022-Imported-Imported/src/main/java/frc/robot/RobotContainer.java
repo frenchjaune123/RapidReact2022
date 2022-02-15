@@ -13,6 +13,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.Autonomous.AutonomousMode;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,6 +36,7 @@ public class RobotContainer {
   
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   // private final Shooter m_shooter = new Shooter();
+  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -93,6 +95,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return m_autonomousMode;
   }
 }
