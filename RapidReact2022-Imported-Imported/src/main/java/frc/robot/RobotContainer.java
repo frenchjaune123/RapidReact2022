@@ -71,7 +71,7 @@ public class RobotContainer {
 
     m_shooterSubsystem.setDefaultCommand(
       new Shooter(
-        () -> -m_controller1.getRightTrigger(), m_shooterSubsystem)
+        () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
     );
   }
 
