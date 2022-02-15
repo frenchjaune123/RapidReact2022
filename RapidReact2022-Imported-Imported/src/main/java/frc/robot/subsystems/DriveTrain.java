@@ -107,6 +107,15 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
   
+
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
+  public double getHeading() {
+    return m_gyro.getAngle();
+  }
+
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // System.out.println(m_gyro.getAngle());
