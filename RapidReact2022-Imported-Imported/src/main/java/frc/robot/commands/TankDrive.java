@@ -16,11 +16,14 @@ public class TankDrive extends CommandBase {
   private final DoubleSupplier m_leftSpeed;
   private final DoubleSupplier m_rightSpeed;
 
+  private static double m_speed;
+
   /** Creates a new TankDrive. */
   public TankDrive(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed, DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
     m_leftSpeed = leftSpeed;
     m_rightSpeed = rightSpeed;
+    m_speed = 1;
     addRequirements(m_driveTrain);
   }
 
@@ -34,7 +37,7 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    m_driveTrain.tankDrive(m_leftSpeed.getAsDouble(), m_rightSpeed.getAsDouble());
+    m_driveTrain.tankDrive(m_speed * m_leftSpeed.getAsDouble(), m_speed * m_rightSpeed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -47,5 +50,9 @@ public class TankDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public static void setSpeed(double speed) {
+    m_speed = speed;
   }
 }

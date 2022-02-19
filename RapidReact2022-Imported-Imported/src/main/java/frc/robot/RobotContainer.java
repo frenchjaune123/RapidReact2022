@@ -67,8 +67,8 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(
       new TankDrive(
-        () -> m_controller0.getLeftStickY(), 
-        () -> -m_controller0.getRightStickY(), m_drivetrain)
+        () -> -m_controller0.getLeftStickY(), 
+        () -> m_controller0.getRightStickY(), m_drivetrain)
     );
 
     m_shooterSubsystem.setDefaultCommand(
@@ -86,6 +86,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // l_controller0.l_button3.toggleWhenPressed(new SlowMode());
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
+    m_controller0.xButton.toggleWhenPressed(new SlowMode());
   }
 
   /**

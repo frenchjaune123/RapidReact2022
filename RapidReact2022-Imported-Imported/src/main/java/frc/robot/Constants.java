@@ -16,10 +16,9 @@ public final class Constants {
 
     //PWM Motors
     public static final int DRIVE_LEFT_VICTORSP0 = 4;
-    // public static final int DRIVE_LEFT_VICTORSP1 = 12;
+    public static final int INTAKE_MOTOR_VICTORSP = 0; //review this port!!
 
     public static final int DRIVE_RIGHT_VICTORSP0 = 5;
-    // public static final int DRIVE_RIGHT_VICTORSP1 = 13;
     public static final int SHOOTER_VICTORSP0 = 0;
 
     //CAN Motors
@@ -30,6 +29,10 @@ public final class Constants {
 
     //Shooter Motors
     public static final int SHOOTER_VENOM0 = 4;
+
+    //Pneumatics
+    public static final int INTAKE_SOLENOID_DEPLOY = 0; //check for actual pneumatic ports
+    public static final int INTAKE_SOLENOID_RETRACT = 1; //this, too ^^
 
     //Controllers
     public static final int kController0 = 0;

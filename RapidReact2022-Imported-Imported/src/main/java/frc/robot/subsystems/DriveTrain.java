@@ -26,43 +26,40 @@ import frc.robot.Constants;
 import frc.robot.commands.SlowMode;
 
 public class DriveTrain extends SubsystemBase {
-  // private final DifferentialDrive m_drive;
-  // private final VictorSP leftMotor0;
-  // private final VictorSP rightMotor0;
-  
-  private final CANVenom leftMotor0;
-  private final CANVenom leftMotor1;
-
-  private final CANVenom rightMotor0;
-  private final CANVenom rightMotor1;
-
+  // VictorSP = practice bot
   private final DifferentialDrive m_drive;
-  // private final MotorControllerGroup m_left;
-  // private final MotorControllerGroup m_right;
+  private final VictorSP leftMotor0;
+  private final VictorSP rightMotor0;
+  
+  // CANVenom = official bot
+  // private final CANVenom leftMotor0;
+  // private final CANVenom leftMotor1;
+  // private final CANVenom rightMotor0;
+  // private final CANVenom rightMotor1;
+  // private final DifferentialDrive m_drive;
+
 
   private final Gyro m_gyro;
   
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
-    // leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
-    // rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
+    // VictorSP
+    leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
+    rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
 
-    //only one motor leads MANNNN
-    leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
-    leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
-    // leftMotor1.setCommand(ControlMode.FollowTheLeader, 6702); //leftMotor1 leading, 6677 is lead motor
-    leftMotor0.follow(leftMotor1); //leftMotor1 is leading
+    // CANVenom
+    // leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
+    // leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
+    // leftMotor0.follow(leftMotor1); //leftMotor1 is leading
+    // rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
+    // rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
+    // rightMotor0.follow(rightMotor1); //rightMotor1 is leading
 
-    rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
-    rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
-    // rightMotor1.setCommand(ControlMode.FollowTheLeader, 6514); //rightMotor1 ias leading, 6512 is lead
-    rightMotor0.follow(rightMotor1); //rightMotor1 is leading
 
-    // m_left = new MotorControllerGroup(leftMotor0, leftMotor1);
-    // m_right = new MotorControllerGroup(rightMotor0, rightMotor1);
-    m_drive = new DifferentialDrive(leftMotor1, rightMotor1);
-    // m_drive = new DifferentialDrive(m_left, m_right);
+    // m_drive = new DifferentialDrive(leftMotor1, rightMotor1); //CANVenom 
+    m_drive = new DifferentialDrive(leftMotor0, rightMotor0); //VictorSP
 
+    // VictorSP 
     // leftMotor0.stopMotor();
     // rightMotor0.stopMotor();
 
@@ -119,9 +116,9 @@ public class DriveTrain extends SubsystemBase {
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // System.out.println(m_gyro.getAngle());
-    SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
-    SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
-    SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
-    SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
+    // SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
+    // SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
+    // SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
+    // SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
   }
 }
