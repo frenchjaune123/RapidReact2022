@@ -7,17 +7,17 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class TurnInPlace extends CommandBase {
+public class RotateCCW extends CommandBase {
   private final DriveTrain m_driveTrain;
   private double m_angle;
   private double m_speed;
   
-  /** Creates a new CW. */
-  public TurnInPlace(DriveTrain driveTrain, double speed, double angle) {
+  /** Creates a new RotateCCW. */
+  public RotateCCW(double angle, double speed, DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
     m_speed = speed;
     m_angle = angle;
-
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveTrain);
   }
@@ -31,12 +31,7 @@ public class TurnInPlace extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_angle > 0) {
-      m_driveTrain.tankDrive(m_speed, m_speed);
-    } 
-    if (m_angle < 0) {
-      m_driveTrain.tankDrive(m_speed, m_speed);
-    }
+    m_driveTrain.tankDrive(-m_speed, -m_speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,22 +41,11 @@ public class TurnInPlace extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_angle > 0) {
-      if (m_driveTrain.getHeading() > m_angle) {
-        return true;
-      } else {
-        return false;
-      }
+     if (m_driveTrain.getHeading() < -m_angle) {
+      return true;
     }
-
-    if (m_angle < 0) {
-      if (m_driveTrain.getHeading() < m_angle) {
-        return true;
-      } else {
-        return false;
-      }
+    else {
+      return false;
     }
-    
-    return false;
   }
 }

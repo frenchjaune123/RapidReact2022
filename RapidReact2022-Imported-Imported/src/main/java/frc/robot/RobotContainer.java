@@ -80,10 +80,10 @@ public class RobotContainer {
         () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
     );
 
-    m_intakeSubsystem.setDefaultCommand(
-      new IntakeMotor(
-        () -> m_controller1.getRightStickY(), m_intakeSubsystem)
-    );
+    // m_intakeSubsystem.setDefaultCommand(
+    //   new IntakeMotor(
+    //     () -> m_controller1.getRightStickY(), m_intakeSubsystem)
+    // );
   }
 
   /**
@@ -96,7 +96,7 @@ public class RobotContainer {
     // l_controller0.l_button3.toggleWhenPressed(new SlowMode());
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
     m_controller0.xButton.toggleWhenPressed(new SlowMode());
-    m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
+    // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
   }
 
   /**
