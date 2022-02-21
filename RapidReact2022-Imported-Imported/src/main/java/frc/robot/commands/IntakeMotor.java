@@ -7,19 +7,18 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class Shooter extends CommandBase {
-  private final ShooterSubsystem m_ShooterSubsystem;
-  private final double m_input;
+public class IntakeMotor extends CommandBase {
+  private final IntakeSubsystem m_intakeSubsystem;
+  private final DoubleSupplier m_input;
 
-  /** Creates a new Shooter. */
-  public Shooter(double input, ShooterSubsystem shooterSubsystem) {
-    m_ShooterSubsystem = shooterSubsystem;
+  /** Creates a new IntakeMotor. */
+  public IntakeMotor(DoubleSupplier input, IntakeSubsystem intakeSubsystem) {
+    m_intakeSubsystem = intakeSubsystem;
     m_input = input;
-
-    addRequirements(m_ShooterSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
+    
+    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,13 +28,13 @@ public class Shooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.shoot(m_input);
+    m_intakeSubsystem.suck(m_input.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ShooterSubsystem.stop();
+    m_intakeSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.

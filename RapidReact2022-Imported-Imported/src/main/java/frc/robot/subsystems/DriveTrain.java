@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 
+import com.playingwithfusion.CANVenom;
+import com.playingwithfusion.CANVenom.ControlMode;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -23,32 +26,46 @@ import frc.robot.Constants;
 import frc.robot.commands.SlowMode;
 
 public class DriveTrain extends SubsystemBase {
-  // private final DifferentialDrive m_drive;
+  // VictorSP = practice bot
+  private final DifferentialDrive m_drive;
   private final VictorSP leftMotor0;
   private final VictorSP rightMotor0;
   
-  private final DifferentialDrive m_drive;
-  private final MotorControllerGroup m_left;
-  private final MotorControllerGroup m_right;
+  // CANVenom = official bot
+  // private final CANVenom leftMotor0;
+  // private final CANVenom leftMotor1;
+  // private final CANVenom rightMotor0;
+  // private final CANVenom rightMotor1;
+  // private final DifferentialDrive m_drive;
+
 
   private final Gyro m_gyro;
   
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
+    // VictorSP
     leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
     rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
-    
-    m_left = new MotorControllerGroup(leftMotor0, leftMotor0);
-    m_right = new MotorControllerGroup(rightMotor0, rightMotor0);
-    m_drive = new DifferentialDrive(m_left, m_right);
+
+    // CANVenom
+    // leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
+    // leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
+    // leftMotor0.follow(leftMotor1); //leftMotor1 is leading
+    // rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
+    // rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
+    // rightMotor0.follow(rightMotor1); //rightMotor1 is leading
 
 
-    leftMotor0.stopMotor();
-    rightMotor0.stopMotor();
+    // m_drive = new DifferentialDrive(leftMotor1, rightMotor1); //CANVenom 
+    m_drive = new DifferentialDrive(leftMotor0, rightMotor0); //VictorSP
+
+    // VictorSP 
+    // leftMotor0.stopMotor();
+    // rightMotor0.stopMotor();
 
     m_gyro = new ADXRS450_Gyro();
     m_gyro.calibrate();
-    // m_gyro.reset();
+    m_gyro.reset();
 
     // addChild("Drive", m_drive);
   }
@@ -87,8 +104,21 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
   
+
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
+  public double getHeading() {
+    return m_gyro.getAngle();
+  }
+
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // System.out.println(m_gyro.getAngle());
+    // SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
+    // SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
+    // SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
+    // SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
   }
 }

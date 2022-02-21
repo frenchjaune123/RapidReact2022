@@ -10,10 +10,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.IntakeMotor;
+import frc.robot.commands.IntakePiston;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.Autonomous.AutonomousMode;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -29,11 +33,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final DriveTrain m_drivetrain = new DriveTrain();
-  // private final CrusaderController m_controller0 = new CrusaderController(Constants.kController0);
-  // private final CrusaderController m_controller1 = new CrusaderController(Constants.kController1);
-  private final LogitechController l_controller0 = new LogitechController(Constants.kController0);
+  private final CrusaderController m_controller0 = new CrusaderController(Constants.kController0);
+  private final CrusaderController m_controller1 = new CrusaderController(Constants.kController1);
+  // private final LogitechController l_controller0 = new LogitechController(Constants.kController0);
   
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  // private final Shooter m_shooter = new Shooter();
+  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain);
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -56,11 +63,27 @@ public class RobotContainer {
     //     () -> -m_speedLimiter.calculate(l_controller0.getXAxis()), m_drivetrain)
     // );
 
+    // m_drivetrain.setDefaultCommand(
+    //   new ArcadeDrive(
+    //     () -> l_controller0.getZAxis(), 
+    //     () -> -l_controller0.getYAxis(), m_drivetrain)
+    // );
+
     m_drivetrain.setDefaultCommand(
-      new ArcadeDrive(
-        () -> l_controller0.getZAxis(), 
-        () -> -l_controller0.getYAxis(), m_drivetrain)
+      new TankDrive(
+        () -> -m_controller0.getLeftStickY(), 
+        () -> m_controller0.getRightStickY(), m_drivetrain)
     );
+
+    m_shooterSubsystem.setDefaultCommand(
+      new Shooter(
+        () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
+    );
+
+    // m_intakeSubsystem.setDefaultCommand(
+    //   new IntakeMotor(
+    //     () -> m_controller1.getRightStickY(), m_intakeSubsystem)
+    // );
   }
 
   /**
@@ -70,8 +93,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    l_controller0.l_button3.toggleWhenPressed(new SlowMode());
-    l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-1, m_shooterSubsystem));
+    // l_controller0.l_button3.toggleWhenPressed(new SlowMode());
+    // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
+    m_controller0.xButton.toggleWhenPressed(new SlowMode());
+    // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
   }
 
   /**
@@ -81,6 +106,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return m_autonomousMode;
   }
 }
