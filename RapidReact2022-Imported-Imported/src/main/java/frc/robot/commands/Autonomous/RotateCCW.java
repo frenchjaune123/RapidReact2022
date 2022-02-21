@@ -4,48 +4,44 @@
 
 package frc.robot.commands.Autonomous;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
 
-public class RotateCCW extends CommandBase {
-  private final DriveTrain m_driveTrain;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class RotateCCW extends PIDCommand {
   private double m_angle;
-  private double m_speed;
+  private DriveTrain m_driveTrain;
   
   /** Creates a new RotateCCW. */
-  public RotateCCW(double angle, double speed, DriveTrain driveTrain) {
-    m_driveTrain = driveTrain;
-    m_speed = speed;
-    m_angle = angle;
-    
+  public RotateCCW(double angle, DriveTrain driveTrain) {
+    super(
+        // The controller that the command will use
+        new PIDController(10, 0, 0),
+        // This should return the measurement
+        () -> 0,
+        // This should return the setpoint (can also be a constant)
+        () -> angle,
+        // This uses the output
+        output -> 
+          // Use the output here
+          driveTrain.arcadeDrive(0, output)
+        );
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_driveTrain);
-  }
+    // Configure additional PID options by calling `getController` here.
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_driveTrain.resetGyro();
-  }
+    getController().enableContinuousInput(-180, 180);
+    getController().setTolerance(5, 5);
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_driveTrain.tankDrive(-m_speed, -m_speed);
+    SmartDashboard.putData("AUTO PID", this.getController());
   }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-     if (m_driveTrain.getHeading() < -m_angle) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return getController().atSetpoint();
   }
 }
