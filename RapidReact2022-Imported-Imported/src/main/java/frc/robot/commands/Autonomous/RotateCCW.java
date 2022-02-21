@@ -13,35 +13,39 @@ import frc.robot.subsystems.DriveTrain;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RotateCCW extends PIDCommand {
-  private double m_angle;
-  private DriveTrain m_driveTrain;
+  private boolean isFinished;
+  // public PIDController m_pidController;
   
   /** Creates a new RotateCCW. */
   public RotateCCW(double angle, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(10, 0, 0),
+        new PIDController(1, 0, 0),
         // This should return the measurement
-        () -> 0,
+        () -> -driveTrain.getHeading(),
         // This should return the setpoint (can also be a constant)
-        () -> angle,
+        angle,
         // This uses the output
-        output -> 
+        output -> {
           // Use the output here
-          driveTrain.arcadeDrive(0, output)
-        );
+          SmartDashboard.putNumber("AUTO PID", output);
+          driveTrain.arcadeDrive(0, output);
+        });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
 
-    getController().enableContinuousInput(-180, 180);
-    getController().setTolerance(5, 5);
-
-    SmartDashboard.putData("AUTO PID", this.getController());
+    // getController().enableContinuousInput(-180, 180);
+    // m_pidController = this.getController();
+    getController().setTolerance(5);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    isFinished = getController().atSetpoint();
+    SmartDashboard.putBoolean("PID isFinished", isFinished);
+    this.getController().reset();
+    return isFinished;
+    // return false;
   }
 }

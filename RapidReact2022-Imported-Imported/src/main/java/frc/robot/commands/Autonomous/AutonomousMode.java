@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 
@@ -20,8 +21,10 @@ public class AutonomousMode extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // new RotateCCW(90, 0.5, m_driveTrain)
-      new RotateCCW(90, m_driveTrain)
-
+      new RotateCCW(90, m_driveTrain),
+      new RotateCCW(0, m_driveTrain)
+      // new RotateCCW(() -> getController().reset(0))
+      // new InstantCommand(() -> )
 
     );
   }

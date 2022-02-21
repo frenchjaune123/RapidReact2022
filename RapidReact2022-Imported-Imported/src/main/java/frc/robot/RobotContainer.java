@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.IntakeMotor;
-import frc.robot.commands.IntakePiston;
+// import frc.robot.commands.IntakeMotor;
+// import frc.robot.commands.IntakePiston;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.Autonomous.AutonomousMode;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IntakeSubsystem;
+// import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -40,7 +40,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   // private final Shooter m_shooter = new Shooter();
   private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain);
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  // private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -69,12 +69,25 @@ public class RobotContainer {
     //     () -> -l_controller0.getYAxis(), m_drivetrain)
     // );
 
-    m_drivetrain.setDefaultCommand(
-      new TankDrive(
-        () -> -m_controller0.getLeftStickY(), 
-        () -> m_controller0.getRightStickY(), m_drivetrain)
-    );
+    // m_drivetrain.setDefaultCommand(
+    //   new TankDrive(
+    //     () -> -m_controller0.getLeftStickY(), 
+    //     () -> m_controller0.getRightStickY(), m_drivetrain)
+    // );
 
+    // m_drivetrain.setDefaultCommand(
+    //   new ArcadeDrive(
+    //     () -> m_controller0.getRightStickX(), 
+    //     () -> -m_controller0.getLeftStickY(), m_drivetrain)
+    // );
+
+    // new
+    m_drivetrain.setDefaultCommand(
+      new ArcadeDrive(
+        () -> -m_controller0.getLeftStickY(), 
+        () -> m_controller0.getRightStickX(), m_drivetrain)
+    );
+    
     m_shooterSubsystem.setDefaultCommand(
       new Shooter(
         () -> m_controller1.getRightTrigger(), m_shooterSubsystem)

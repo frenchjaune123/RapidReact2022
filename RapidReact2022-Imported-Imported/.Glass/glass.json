@@ -1,13 +1,14 @@
 {
   "NetworkTables": {
-    "LiveWindow": {
-      "open": true
-    },
     "SmartDashboard": {
+      "AUTO PID": {
+        "open": true
+      },
       "open": true
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/DriveTrain": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[0]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",

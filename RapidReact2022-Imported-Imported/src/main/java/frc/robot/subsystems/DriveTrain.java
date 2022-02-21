@@ -82,7 +82,8 @@ public class DriveTrain extends SubsystemBase {
     double leftMtr = throttle - turn;
     double rightMtr = throttle + turn;
 
-    m_drive.arcadeDrive(throttle, turn);
+    // m_drive.arcadeDrive(throttle, turn); //original
+    m_drive.arcadeDrive(turn, throttle); //new
     // m_drive.tankDrive(leftMtr, rightMtr);
   }
 
