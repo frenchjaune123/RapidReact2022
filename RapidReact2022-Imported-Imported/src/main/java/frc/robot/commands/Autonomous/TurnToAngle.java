@@ -12,57 +12,56 @@ import frc.robot.subsystems.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RotateCCW extends PIDCommand {
+public class TurnToAngle extends PIDCommand {
   private boolean isFinished;
   private DriveTrain m_driveTrain;
-  // public PIDController m_pidController;
-  
-  /** Creates a new RotateCCW. */
-  public RotateCCW(double angle, DriveTrain driveTrain) {
+
+  /** Creates a new RotateCW. */
+  public TurnToAngle(double angle, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
         new PIDController(1, 0, 0),
         // This should return the measurement
-        () -> -driveTrain.getHeading(),
+        () -> driveTrain.getHeading(),
         // This should return the setpoint (can also be a constant)
-        angle,
+        () -> angle,
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", output);
+          SmartDashboard.putNumber("auto output", 0.1 * output);
           // SmartDashboard.putNumber("auto input", value);
-          driveTrain.arcadeDrive(0, 0.5 * output);
+          driveTrain.arcadeDrive(0, 0.1 * output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-
+    
     m_driveTrain = driveTrain;
     getController().enableContinuousInput(-180, 180);
-    // m_pidController = this.getController();
-    getController().setTolerance(5);
+    getController().setTolerance(5, 10);
+
   }
 
-  public void initialize() {
-    m_driveTrain.resetGyro();
-  }
-  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     isFinished = getController().atSetpoint();
-    SmartDashboard.putBoolean("PID isFinished", isFinished);
-    SmartDashboard.putNumber("position error", this.getController().getPositionError());
-    // if (isFinished) {
-    //   this.getController().reset();
-    //   m_driveTrain.resetGyro();
-    //   return isFinished;
-    // } else {
-    //   isFinished = false;
-    //   m_driveTrain.resetGyro();
-    //   return isFinished;
-    // }
+
+    SmartDashboard.putBoolean("tta PID isFinished", isFinished);
+    SmartDashboard.putNumber("tta position error", this.getController().getPositionError());
+    SmartDashboard.putNumber("tta measurement", this.m_measurement.getAsDouble());
+    SmartDashboard.putNumber("tta setpointsource", this.m_setpoint.getAsDouble());
+
+    if (isFinished) {
+      getController().reset();
+      m_driveTrain.resetGyro();
+      getController().disableContinuousInput();
+    }
     
     return isFinished;
-    // return false;
+  }
+
+  @Override
+  public void initialize() {
+    m_driveTrain.resetGyro();
   }
 }

@@ -21,10 +21,8 @@ public class AutonomousMode extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // new RotateCCW(90, 0.5, m_driveTrain)
-      new RotateCCW(90, m_driveTrain),
-      new RotateCCW(0, m_driveTrain)
-      // new RotateCCW(() -> getController().reset(0))
-      // new InstantCommand(() -> )
+      // new RotateCCW(90, m_driveTrain),
+      new TurnToAngle(90, m_driveTrain) //should be rotating 90deg CW
 
     );
   }
