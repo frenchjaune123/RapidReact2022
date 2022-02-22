@@ -34,7 +34,7 @@ public class RotateCCW extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
 
-    // getController().enableContinuousInput(-180, 180);
+    getController().enableContinuousInput(-180, 180);
     // m_pidController = this.getController();
     getController().setTolerance(5);
   }
@@ -44,8 +44,13 @@ public class RotateCCW extends PIDCommand {
   public boolean isFinished() {
     isFinished = getController().atSetpoint();
     SmartDashboard.putBoolean("PID isFinished", isFinished);
-    this.getController().reset();
-    return isFinished;
+    if (isFinished) {
+      this.getController().reset();
+      return isFinished;
+    } else {
+      isFinished = false;
+      return isFinished;
+    }
     // return false;
   }
 }
