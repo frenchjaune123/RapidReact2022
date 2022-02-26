@@ -20,9 +20,9 @@ public class AutonomousMode extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // new RotateCCW(90, 0.5, m_driveTrain)
-      // new RotateCCW(90, m_driveTrain),
-      new TurnToAngle(90, m_driveTrain) //should be rotating 90deg CW
+      new TurnToAngle(90, m_driveTrain)
+      // new TurnToAngle(-90, m_driveTrain) //positive is right, negative is left
+      // new TurnToAngle(160, m_driveTrain)
 
     );
   }

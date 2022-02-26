@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  VictorSP m_shooter;
-  // CANVenom m_shooter;
+  // VictorSP m_shooter;
+  CANVenom m_shooter;
   private double output;
   // MotorController m_motorcontroller;
   
   /** Creates a new Shooter. */
   public ShooterSubsystem() {
-    m_shooter =  new VictorSP(Constants.SHOOTER_VICTORSP0);
-    // m_shooter = new CANVenom(Constants.SHOOTER_VENOM0);
+    // m_shooter =  new VictorSP(Constants.SHOOTER_VICTORSP0);
+    m_shooter = new CANVenom(Constants.SHOOTER_VENOM0);
   }
 
   public void shoot(double input) {
@@ -36,7 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Shooter Trigger", output);
-    // SmartDashboard.putNumber("Shooter RPM", m_shooter.getSpeed());
+    SmartDashboard.putNumber("Shooter Trigger", output);
+    SmartDashboard.putNumber("Shooter RPM", m_shooter.getSpeed());
   }
 }

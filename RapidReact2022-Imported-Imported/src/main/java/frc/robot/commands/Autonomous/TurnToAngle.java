@@ -20,7 +20,7 @@ public class TurnToAngle extends PIDCommand {
   public TurnToAngle(double angle, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0.15), //0.19 is good, trying to go lower, 0.15 seems good, little jitter
+        new PIDController(1, 0, 0), //(1,0,0.15)
         // This should return the measurement
         () -> driveTrain.getHeading(),
         // This should return the setpoint (can also be a constant)
@@ -28,7 +28,7 @@ public class TurnToAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", 0.1 * output);
+          SmartDashboard.putNumber("auto output", 0.1 * output); //(0.01 * output)
           // SmartDashboard.putNumber("auto input", value);
           driveTrain.arcadeDrive(0, 0.1 * output);
         },
