@@ -14,6 +14,7 @@
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/VictorSP[0]": "Motor Controller",
       "/SmartDashboard/AUTO PID": "PIDController"
     },
     "windows": {
@@ -42,7 +43,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 510,
+          "height": 688,
           "series": [
             {
               "color": [

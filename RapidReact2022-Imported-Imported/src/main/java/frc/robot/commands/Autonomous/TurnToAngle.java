@@ -14,13 +14,13 @@ import frc.robot.subsystems.DriveTrain;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
   private boolean isFinished;
-  // private DriveTrain m_driveTrain;
+  private DriveTrain m_driveTrain;
 
-  /** Creates a new RotateCW. */
+  // Parameters: Positive angle is right, Negative angle is left
   public TurnToAngle(double angle, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0),
+        new PIDController(1, 0, 0.15), //0.19 is good, trying to go lower, 0.15 seems good, little jitter
         // This should return the measurement
         () -> driveTrain.getHeading(),
         // This should return the setpoint (can also be a constant)
@@ -28,18 +28,18 @@ public class TurnToAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", output/90);
+          SmartDashboard.putNumber("auto output", 0.1 * output);
           // SmartDashboard.putNumber("auto input", value);
-          driveTrain.arcadeDrive(0, output/90);
+          driveTrain.arcadeDrive(0, 0.1 * output);
         },
         driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     
     // addRequirements(driveTrain);
-    // m_driveTrain = driveTrain;
+    m_driveTrain = driveTrain;
     getController().enableContinuousInput(-180, 180);
-    getController().setTolerance(5, 0);
+    getController().setTolerance(1, 0);
 
   }
 
@@ -62,8 +62,8 @@ public class TurnToAngle extends PIDCommand {
     return isFinished;
   }
 
-  // @Override
-  // public void initialize() {
-  //   m_driveTrain.resetGyro();
-  // }
+  @Override
+  public void initialize() {
+    m_driveTrain.resetGyro();
+  }
 }
