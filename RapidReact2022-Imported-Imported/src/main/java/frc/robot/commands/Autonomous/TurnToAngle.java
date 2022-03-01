@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -20,7 +21,7 @@ public class TurnToAngle extends PIDCommand {
   public TurnToAngle(double angle, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0.15), //0.19 is good, trying to go lower, 0.15 seems good, little jitter
+        new PIDController(1, 0, 0.16), //0.013 does not brown out!, 0.014 browns out
         // This should return the measurement
         () -> driveTrain.getHeading(),
         // This should return the setpoint (can also be a constant)
@@ -28,9 +29,11 @@ public class TurnToAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", 0.1 * output);
+          SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -1, 1)); //0.1
           // SmartDashboard.putNumber("auto input", value);
-          driveTrain.arcadeDrive(0, 0.1 * output);
+          // driveTrain.arcadeDrive(0, output);
+          driveTrain.arcadeDrive(0, MathUtil.clamp(output, -0.5, 0.5));
+          // MathUtil.clamp(output, -1, 1);
         },
         driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,7 +42,7 @@ public class TurnToAngle extends PIDCommand {
     // addRequirements(driveTrain);
     m_driveTrain = driveTrain;
     getController().enableContinuousInput(-180, 180);
-    getController().setTolerance(1, 0);
+    getController().setTolerance(1, 10);
 
   }
 
