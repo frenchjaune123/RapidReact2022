@@ -43,11 +43,11 @@ public class DriveTrain extends SubsystemBase {
   
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
-    // VictorSP
+    // practice bot VictorSP
     leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
     rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
 
-    // CANVenom
+    // official bot CANVenom
     // leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
     // leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
     // leftMotor0.follow(leftMotor1); //leftMotor1 is leading
@@ -55,11 +55,11 @@ public class DriveTrain extends SubsystemBase {
     // rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
     // rightMotor0.follow(rightMotor1); //rightMotor1 is leading
 
-
-    // m_drive = new DifferentialDrive(leftMotor1, rightMotor1); //CANVenom 
+    // official bot CANVenom
+    // m_drive = new DifferentialDrive(leftMotor1, rightMotor1);
     m_drive = new DifferentialDrive(leftMotor0, rightMotor0); //VictorSP
 
-    // VictorSP 
+    // practice bot VictorSP 
     // leftMotor0.stopMotor();
     // rightMotor0.stopMotor();
 
