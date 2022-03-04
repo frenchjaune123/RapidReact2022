@@ -29,13 +29,12 @@ public class Shooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.shoot(m_input.getAsDouble()); //getAsDouble()
+    m_ShooterSubsystem.shoot(m_input.getAsDouble()); //getAsDouble() //3800
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ShooterSubsystem.stop();
   }
 
   // Returns true when the command should end.

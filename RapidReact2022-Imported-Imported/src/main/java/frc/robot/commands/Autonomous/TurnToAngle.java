@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -12,57 +13,60 @@ import frc.robot.subsystems.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RotateCCW extends PIDCommand {
+public class TurnToAngle extends PIDCommand {
   private boolean isFinished;
   private DriveTrain m_driveTrain;
-  // public PIDController m_pidController;
-  
-  /** Creates a new RotateCCW. */
-  public RotateCCW(double angle, DriveTrain driveTrain) {
+
+  // Parameters: Positive angle is right, Negative angle is left
+  public TurnToAngle(double angle, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0),
+        new PIDController(1, 0, 0.16), //0.013 does not brown out!, 0.014 browns out
         // This should return the measurement
-        () -> -driveTrain.getHeading(),
+        () -> driveTrain.getHeading(),
         // This should return the setpoint (can also be a constant)
-        angle,
+        () -> angle,
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", output);
+          SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -1, 1)); //0.1
           // SmartDashboard.putNumber("auto input", value);
-          driveTrain.arcadeDrive(0, 0.5 * output);
-        });
+          // driveTrain.arcadeDrive(0, output);
+          driveTrain.arcadeDrive(0, -MathUtil.clamp(output, -0.5, 0.5));
+          // MathUtil.clamp(output, -1, 1);
+        },
+        driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-
+    
+    // addRequirements(driveTrain);
     m_driveTrain = driveTrain;
     getController().enableContinuousInput(-180, 180);
-    // m_pidController = this.getController();
-    getController().setTolerance(5);
+    getController().setTolerance(1, 10);
+
   }
 
-  public void initialize() {
-    m_driveTrain.resetGyro();
-  }
-  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     isFinished = getController().atSetpoint();
-    SmartDashboard.putBoolean("PID isFinished", isFinished);
-    SmartDashboard.putNumber("position error", this.getController().getPositionError());
-    // if (isFinished) {
-    //   this.getController().reset();
-    //   m_driveTrain.resetGyro();
-    //   return isFinished;
-    // } else {
-    //   isFinished = false;
-    //   m_driveTrain.resetGyro();
-    //   return isFinished;
-    // }
+
+    SmartDashboard.putBoolean("tta PID isFinished", isFinished);
+    SmartDashboard.putNumber("tta position error", this.getController().getPositionError());
+    SmartDashboard.putNumber("tta measurement", this.m_measurement.getAsDouble());
+    SmartDashboard.putNumber("tta setpointsource", this.m_setpoint.getAsDouble());
+
+    if (isFinished) {
+      getController().reset();
+      // m_driveTrain.resetGyro();
+      // getController().disableContinuousInput();
+    }
     
     return isFinished;
-    // return false;
+  }
+
+  @Override
+  public void initialize() {
+    m_driveTrain.resetGyro();
   }
 }
