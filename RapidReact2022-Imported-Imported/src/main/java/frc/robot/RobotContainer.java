@@ -84,8 +84,8 @@ public class RobotContainer {
     // new
     m_drivetrain.setDefaultCommand(
       new ArcadeDrive(
-        () -> -m_controller0.getLeftStickY(), 
-        () -> m_controller0.getRightStickX(), m_drivetrain)
+        () -> m_controller0.getLeftStickY(), 
+        () -> -m_controller0.getRightStickX(), m_drivetrain)
     );
     
     m_shooterSubsystem.setDefaultCommand(
