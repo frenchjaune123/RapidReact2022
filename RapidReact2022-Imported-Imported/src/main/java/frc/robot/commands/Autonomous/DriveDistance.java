@@ -13,50 +13,40 @@ import frc.robot.subsystems.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TurnToAngle extends PIDCommand {
+public class DriveDistance extends PIDCommand {
   private boolean isFinished;
   private DriveTrain m_driveTrain;
 
-  // Parameters: Positive angle is right, Negative angle is left
-  public TurnToAngle(double angle, DriveTrain driveTrain) {
+  /** Creates a new DriveDistance. */
+  public DriveDistance(double position, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0.16), //0.013 does not brown out!, 0.014 browns out
+        new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> driveTrain.getHeading(),
+        () -> driveTrain.getPosition(),
         // This should return the setpoint (can also be a constant)
-        () -> angle,
+        () -> position,
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("autoturn output", MathUtil.clamp(output, -0.5, 0.5)); //0.1
-          driveTrain.arcadeDrive(0, -MathUtil.clamp(output, -0.5, 0.5));
+          SmartDashboard.putNumber("drdist output", MathUtil.clamp(output, -0.5, 0.5)); 
+          driveTrain.arcadeDrive(MathUtil.clamp(output, -0.5, 0.5), 0);
         },
         driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    
-    // addRequirements(driveTrain);
     m_driveTrain = driveTrain;
-    getController().enableContinuousInput(-180, 180);
+    getController().enableContinuousInput(-50, 50);
     getController().setTolerance(1, 10);
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     isFinished = getController().atSetpoint();
-
-    SmartDashboard.putBoolean("tta PID isFinished", isFinished);
-    SmartDashboard.putNumber("tta position error", this.getController().getPositionError());
-    SmartDashboard.putNumber("tta measurement", this.m_measurement.getAsDouble());
-    SmartDashboard.putNumber("tta setpointsource", this.m_setpoint.getAsDouble());
-
+    
     if (isFinished) {
       getController().reset();
-      // m_driveTrain.resetGyro();
-      // getController().disableContinuousInput();
     }
     
     return isFinished;
@@ -64,6 +54,6 @@ public class TurnToAngle extends PIDCommand {
 
   @Override
   public void initialize() {
-    m_driveTrain.resetGyro();
+    m_driveTrain.resetPosition();
   }
 }
