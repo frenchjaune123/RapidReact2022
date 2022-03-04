@@ -114,28 +114,12 @@ public class DriveTrain extends SubsystemBase {
     return m_gyro.getAngle();
   }
 
-  public void resetPosition() {
-    leftMotor0.resetPosition();
-    leftMotor1.resetPosition();
-    rightMotor0.resetPosition();
-    rightMotor1.resetPosition();
-  }
-  
-  //Try to find out which motor is most accurate in position, if any
-  public double getPosition() {
-    return leftMotor1.getPosition();
-  }
-
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
+    // System.out.println(m_gyro.getAngle());
     // SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
     // SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
     // SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
     // SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
-
-    SmartDashboard.putNumber("LeftPosition0", leftMotor0.getPosition());
-    SmartDashboard.putNumber("LeftPosition1", leftMotor1.getPosition());
-    SmartDashboard.putNumber("RightPosition0", rightMotor0.getPosition());
-    SmartDashboard.putNumber("RightPosition1", rightMotor1.getPosition());
   }
 }
