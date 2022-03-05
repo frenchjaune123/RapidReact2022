@@ -29,11 +29,8 @@ public class TurnToAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -1, 1)); //0.1
-          // SmartDashboard.putNumber("auto input", value);
-          // driveTrain.arcadeDrive(0, output);
+          SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -0.5, 0.5));
           driveTrain.arcadeDrive(0, -MathUtil.clamp(output, -0.5, 0.5));
-          // MathUtil.clamp(output, -1, 1);
         },
         driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -58,8 +55,6 @@ public class TurnToAngle extends PIDCommand {
 
     if (isFinished) {
       getController().reset();
-      // m_driveTrain.resetGyro();
-      // getController().disableContinuousInput();
     }
     
     return isFinished;

@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.ControlMode;
 
@@ -30,7 +29,7 @@ public class DriveTrain extends SubsystemBase {
   // private final DifferentialDrive m_drive;
   // private final VictorSP leftMotor0;
   // private final VictorSP rightMotor0;
-  
+
   // CANVenom = official bot
   private final CANVenom leftMotor0;
   private final CANVenom leftMotor1;
@@ -38,9 +37,8 @@ public class DriveTrain extends SubsystemBase {
   private final CANVenom rightMotor1;
   private final DifferentialDrive m_drive;
 
-
   private final Gyro m_gyro;
-  
+
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     // VictorSP
@@ -50,16 +48,15 @@ public class DriveTrain extends SubsystemBase {
     // CANVenom
     leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
     leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
-    leftMotor0.follow(leftMotor1); //leftMotor1 is leading
+    leftMotor0.follow(leftMotor1); // leftMotor1 is leading
     rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
     rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
-    rightMotor0.follow(rightMotor1); //rightMotor1 is leading
+    rightMotor0.follow(rightMotor1); // rightMotor1 is leading
 
-
-    m_drive = new DifferentialDrive(leftMotor1, rightMotor1); //CANVenom 
+    m_drive = new DifferentialDrive(leftMotor1, rightMotor1); // CANVenom
     // m_drive = new DifferentialDrive(leftMotor0, rightMotor0); //VictorSP
 
-    // VictorSP 
+    // VictorSP
     // leftMotor0.stopMotor();
     // rightMotor0.stopMotor();
 
@@ -83,7 +80,7 @@ public class DriveTrain extends SubsystemBase {
     double rightMtr = throttle + turn;
 
     // m_drive.arcadeDrive(throttle, turn); //original
-    m_drive.arcadeDrive(turn, throttle); //new
+    m_drive.arcadeDrive(turn, throttle); // new
     // m_drive.tankDrive(leftMtr, rightMtr);
   }
 
@@ -104,7 +101,6 @@ public class DriveTrain extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-  
 
   public void resetGyro() {
     m_gyro.reset();
@@ -114,6 +110,18 @@ public class DriveTrain extends SubsystemBase {
     return m_gyro.getAngle();
   }
 
+  public void resetPosition() {
+    leftMotor0.resetPosition();
+    leftMotor1.resetPosition();
+    rightMotor0.resetPosition();
+    rightMotor1.resetPosition();
+  }
+
+  // Try to find out which motor is most accurate in position, if any
+  public double getPosition() {
+    return leftMotor1.getPosition();
+  }
+
   public void log() {
     SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // System.out.println(m_gyro.getAngle());
@@ -121,5 +129,10 @@ public class DriveTrain extends SubsystemBase {
     // SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
     // SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
     // SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
+
+    SmartDashboard.putNumber("LeftPosition0", leftMotor0.getPosition());
+    SmartDashboard.putNumber("LeftPosition1", leftMotor1.getPosition());
+    SmartDashboard.putNumber("RightPosition0", rightMotor0.getPosition());
+    SmartDashboard.putNumber("RightPosition1", rightMotor1.getPosition());
   }
 }
