@@ -20,13 +20,17 @@ public final class Constants {
 
     public static final int DRIVE_RIGHT_VICTORSP0 = 5;
     public static final int SHOOTER_VICTORSP0 = 0;
+    public static final int INDEX_REDLINE = 2;
+    public static final int INTAKE_REDLINE = 3;
+    
 
     //CAN Motors
     public static final int DRIVE_LEFT_VENOM0 = 0;
     public static final int DRIVE_LEFT_VENOM1 = 1;
     public static final int DRIVE_RIGHT_VENOM0 = 2;
     public static final int DRIVE_RIGHT_VENOM1 = 3;
-    public static final int INTAKE_MOTOR_SPARKMAX = 9; //test to find out
+    public static final int INTAKE_MOTOR_VICTORSPX = 9; //test to find out
+    public static final int CLIMBER_MOTOR_SPARKMAX = 10; //test
 
     //Shooter Motors
     public static final int SHOOTER_VENOM0 = 4;
@@ -34,6 +38,8 @@ public final class Constants {
     //Pneumatics
     public static final int INTAKE_SOLENOID_DEPLOY = 0; //check for actual pneumatic ports
     public static final int INTAKE_SOLENOID_RETRACT = 1; //this, too ^^
+    public static final int CLIMBER_SOLENOID_DEPLOY = 8; //CHECK TOO
+    public static final int CLIMBER_SOLENOID_RETRACT = 9; //check
 
     //Controllers
     public static final int kController0 = 0;

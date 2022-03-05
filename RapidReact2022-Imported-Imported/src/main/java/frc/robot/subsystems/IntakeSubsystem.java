@@ -8,22 +8,27 @@ import com.playingwithfusion.CANVenom;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   
-  private final CANSparkMax m_intakeMotor;
+  // private final CANSparkMax m_intakeMotor;
+  private final VictorSP m_intakeMotor;
+  private final VictorSP m_indexMotor;
   private final DoubleSolenoid m_intakePistons;
   private boolean intakeIsIn;
   
   /** Creates a new IntakePistonSubsystem. */
   public IntakeSubsystem() {
-    m_intakeMotor = new CANSparkMax(Constants.INTAKE_MOTOR_SPARKMAX, MotorType.kBrushed);
+    m_intakeMotor = new VictorSP(Constants.INTAKE_REDLINE);
+    m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
     m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, //check module type
         Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
     
@@ -40,16 +45,14 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-  public void suck(double input) {
-    if (input > 0) {
-      m_intakeMotor.set(-input);
-    } else {
-      stopIntake();
-    }
+  public void suck(double inputIntake, double inputIndex) {
+    m_intakeMotor.set(inputIntake);
+    m_indexMotor.set(inputIndex);
   }
 
   public void stopIntake() {
     m_intakeMotor.set(0);
+    m_indexMotor.set(0);
   }
 
   @Override
@@ -61,7 +64,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void log() {
     SmartDashboard.putBoolean("Intake is in", intakeIsIn);
     // SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getSpeed());
-    SmartDashboard.putNumber("Intake bus voltage", m_intakeMotor.getBusVoltage());
-    SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getAppliedOutput());
+    // SmartDashboard.putNumber("Intake bus voltage", m_intakeMotor.getBusVoltage());
+    // SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getAppliedOutput());
   }
 }

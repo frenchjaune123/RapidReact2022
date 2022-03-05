@@ -95,7 +95,8 @@ public class RobotContainer {
 
     m_intakeSubsystem.setDefaultCommand(
       new IntakeMotor(
-        () -> m_controller1.getRightStickY(), m_intakeSubsystem)
+        () -> m_controller1.getLeftStickY(), //first param = intake
+        () -> m_controller1.getRightStickY(), m_intakeSubsystem) //second param = index
     );
   }
 

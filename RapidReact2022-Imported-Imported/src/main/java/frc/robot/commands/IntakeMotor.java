@@ -12,12 +12,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeMotor extends CommandBase {
   private final IntakeSubsystem m_intakeSubsystem;
-  private final DoubleSupplier m_input;
+  private final DoubleSupplier m_inputIntake;
+  private final DoubleSupplier m_inputIndex;
 
   /** Creates a new IntakeMotor. */
-  public IntakeMotor(DoubleSupplier input, IntakeSubsystem intakeSubsystem) {
+  public IntakeMotor(DoubleSupplier inputIntake, DoubleSupplier inputIndex, IntakeSubsystem intakeSubsystem) {
     m_intakeSubsystem = intakeSubsystem;
-    m_input = input;
+    m_inputIntake = inputIntake;
+    m_inputIndex = inputIndex;
     
     addRequirements(m_intakeSubsystem);
   }
@@ -29,7 +31,9 @@ public class IntakeMotor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.suck(MathUtil.clamp(m_input.getAsDouble(), -0.5, 0.5));
+    m_intakeSubsystem.suck(
+      MathUtil.clamp(m_inputIntake.getAsDouble(), -0.5, 0.5), //first param = intake
+      MathUtil.clamp(m_inputIndex.getAsDouble(), -0.15, 0.15)); //second param = index
   }
 
   // Called once the command ends or is interrupted.
