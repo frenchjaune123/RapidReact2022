@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
-// import frc.robot.commands.IntakeMotor;
+import frc.robot.commands.IntakeMotor;
 // import frc.robot.commands.IntakePiston;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.Autonomous.AutonomousMode;
 import frc.robot.subsystems.DriveTrain;
-// import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -40,7 +40,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   // private final Shooter m_shooter = new Shooter();
   private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain);
-  // private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -93,10 +93,10 @@ public class RobotContainer {
         () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
     );
 
-    // m_intakeSubsystem.setDefaultCommand(
-    //   new IntakeMotor(
-    //     () -> m_controller1.getRightStickY(), m_intakeSubsystem)
-    // );
+    m_intakeSubsystem.setDefaultCommand(
+      new IntakeMotor(
+        () -> m_controller1.getRightStickY(), m_intakeSubsystem)
+    );
   }
 
   /**
