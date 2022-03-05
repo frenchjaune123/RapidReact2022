@@ -29,8 +29,8 @@ public final class Constants {
     public static final int DRIVE_LEFT_VENOM1 = 1;
     public static final int DRIVE_RIGHT_VENOM0 = 2;
     public static final int DRIVE_RIGHT_VENOM1 = 3;
-    public static final int INTAKE_MOTOR_VICTORSPX = 9; //test to find out
-    public static final int CLIMBER_MOTOR_SPARKMAX = 10; //test
+    public static final int CLIMBER_SPARKMAX0 = 6; //test
+    public static final int CLIMBER_SPARKMAX1 = 5; //test
 
     //Shooter Motors
     public static final int SHOOTER_VENOM0 = 4;
