@@ -11,12 +11,14 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbPulley extends CommandBase {
   private final ClimbSubsystem m_climbSubsystem;
-  private DoubleSupplier m_inputClimb;
+  private DoubleSupplier m_inputClimbLeft;
+  private DoubleSupplier m_inputClimbRight;
 
   /** Creates a new Climb. */
-  public ClimbPulley(DoubleSupplier inputClimb, ClimbSubsystem climbSubsystem) {
+  public ClimbPulley(DoubleSupplier inputClimbLeft, DoubleSupplier inputClimbRight, ClimbSubsystem climbSubsystem) {
     m_climbSubsystem = climbSubsystem;
-    m_inputClimb = inputClimb;
+    m_inputClimbLeft = inputClimbLeft;
+    m_inputClimbRight = inputClimbRight;
     
     addRequirements(climbSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,7 +31,7 @@ public class ClimbPulley extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climbSubsystem.climb(m_inputClimb.getAsDouble()); //up is winding, down is unwinding 
+    m_climbSubsystem.climb(m_inputClimbLeft.getAsDouble(), m_inputClimbRight.getAsDouble()); //up is winding, down is unwinding 
   }
 
   // Called once the command ends or is interrupted.

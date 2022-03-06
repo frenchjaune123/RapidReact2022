@@ -90,8 +90,8 @@ public class RobotContainer {
     // practice bot wants (-,+), new robot wants (+,-)
     m_drivetrain.setDefaultCommand( 
       new ArcadeDrive(
-        () -> -m_controller0.getLeftStickY(), 
-        () -> m_controller0.getRightStickX(), m_drivetrain)
+        () -> m_controller0.getLeftStickY(), 
+        () -> -m_controller0.getRightStickX(), m_drivetrain)
     );
     
     m_shooterSubsystem.setDefaultCommand(
@@ -107,7 +107,8 @@ public class RobotContainer {
 
     m_climbSubsystem.setDefaultCommand(
       new ClimbPulley(
-        () -> m_controller1.getLeftStickY(), m_climbSubsystem)
+        () -> m_controller1.getLeftStickY(),
+        () -> m_controller1.getRightStickY(), m_climbSubsystem)
     );
   }
 
