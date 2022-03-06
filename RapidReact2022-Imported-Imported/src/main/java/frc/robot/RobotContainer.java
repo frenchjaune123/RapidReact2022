@@ -107,8 +107,7 @@ public class RobotContainer {
 
     m_climbSubsystem.setDefaultCommand(
       new ClimbPulley(
-        () -> m_controller1.getLeftStickY(),
-        () -> m_controller1.getRightStickY(), m_climbSubsystem)
+        () -> m_controller1.getLeftStickY(), m_climbSubsystem)
     );
   }
 

@@ -55,9 +55,10 @@ public class ClimbSubsystem extends SubsystemBase {
     }
   }
 
-  public void climb(double inputLeft, double inputRight) {
+  public void climb(double inputLeft) {
     m_climberMotor0.set(inputLeft);
-    m_climberMotor1.set(inputRight);
+    // m_climberMotor1.set(inputRight);
+    m_climberMotor1.set(-inputLeft);
   }
 
   public void stopClimb() {
