@@ -9,10 +9,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ActivateLimelight;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.ClawPiston;
+import frc.robot.commands.ClimbPiston;
 import frc.robot.commands.ClimbPulley;
 import frc.robot.commands.IntakeMotor;
-// import frc.robot.commands.IntakePiston;
+import frc.robot.commands.IntakePiston;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
@@ -84,11 +87,11 @@ public class RobotContainer {
     //     () -> -m_controller0.getLeftStickY(), m_drivetrain)
     // );
 
-    // new
-    m_drivetrain.setDefaultCommand(
+    // practice bot wants (-,+), new robot wants (+,-)
+    m_drivetrain.setDefaultCommand( 
       new ArcadeDrive(
-        () -> m_controller0.getLeftStickY(), 
-        () -> -m_controller0.getRightStickX(), m_drivetrain)
+        () -> -m_controller0.getLeftStickY(), 
+        () -> m_controller0.getRightStickX(), m_drivetrain)
     );
     
     m_shooterSubsystem.setDefaultCommand(
@@ -96,11 +99,11 @@ public class RobotContainer {
         () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
     );
 
-    // m_intakeSubsystem.setDefaultCommand(
-    //   new IntakeMotor(
-    //     () -> m_controller1.getLeftStickY(), //first param = intake
-    //     () -> m_controller1.getRightStickY(), m_intakeSubsystem) //second param = index
-    // );
+    m_intakeSubsystem.setDefaultCommand(
+      new IntakeMotor(
+        () -> m_controller1.getLeftTrigger(), //first param = intake
+        () -> m_controller1.getRightTrigger(), m_intakeSubsystem) //second param = index
+    );
 
     m_climbSubsystem.setDefaultCommand(
       new ClimbPulley(
@@ -119,6 +122,9 @@ public class RobotContainer {
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
     m_controller0.xButton.toggleWhenPressed(new SlowMode());
     // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
+    m_controller1.yButton.whenHeld(new ClimbPiston(m_climbSubsystem));
+    m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
+    m_controller0.aButton.toggleWhenPressed(new ActivateLimelight());
   }
 
   /**

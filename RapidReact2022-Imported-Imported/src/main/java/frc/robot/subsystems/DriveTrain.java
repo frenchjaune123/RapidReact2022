@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.ControlMode;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -15,11 +17,6 @@ import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-// import java.util.ResourceBundle.Control;
-
-// import com.ctre.phoenix.motorcontrol.ControlMode;
-// import com.ctre.phoenix.motorcontrol.NeutralMode;
-// import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.Constants;
 import frc.robot.commands.SlowMode;
@@ -38,6 +35,17 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive m_drive;
 
   private final Gyro m_gyro;
+
+
+  private NetworkTableInstance m_table;
+  private double m_tv;
+  private double m_tx;
+  private double m_ty;
+  private double m_ta;
+
+  private boolean m_LimelightHasValidTarget = false;
+  private double m_LimelightDriveCommand = 0.0;
+  private double m_LimelightSteerCommand = 0.0;
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
@@ -111,10 +119,10 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void resetPosition() {
-    leftMotor0.resetPosition();
-    leftMotor1.resetPosition();
-    rightMotor0.resetPosition();
-    rightMotor1.resetPosition();
+    // leftMotor0.resetPosition();
+    // leftMotor1.resetPosition();
+    // rightMotor0.resetPosition();
+    // rightMotor1.resetPosition();
   }
 
   // Try to find out which motor is most accurate in position, if any
@@ -122,17 +130,69 @@ public class DriveTrain extends SubsystemBase {
     return leftMotor1.getPosition();
   }
 
+  public boolean getllValidTarget() {
+    return m_LimelightHasValidTarget;
+  } 
+
+  public double getllDrive() {
+    return m_LimelightDriveCommand;
+  } 
+  
+  public double getllSteer() {
+    return m_LimelightSteerCommand;
+  } 
+
   public void log() {
-    SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
-    // System.out.println(m_gyro.getAngle());
+    // SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
     // SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
     // SmartDashboard.putNumber("RightSpeed0", rightMotor0.getSpeed());
     // SmartDashboard.putNumber("RightSpeed1", rightMotor1.getSpeed());
 
-    SmartDashboard.putNumber("LeftPosition0", leftMotor0.getPosition());
-    SmartDashboard.putNumber("LeftPosition1", leftMotor1.getPosition());
-    SmartDashboard.putNumber("RightPosition0", rightMotor0.getPosition());
-    SmartDashboard.putNumber("RightPosition1", rightMotor1.getPosition());
+    // SmartDashboard.putNumber("LeftPosition0", leftMotor0.getPosition());
+    // SmartDashboard.putNumber("LeftPosition1", leftMotor1.getPosition());
+    // SmartDashboard.putNumber("RightPosition0", rightMotor0.getPosition());
+    // SmartDashboard.putNumber("RightPosition1", rightMotor1.getPosition());
+  }
+
+
+  public NetworkTableInstance getNetworkTableInstance() {
+    return m_table;
+  }
+
+  public void Update_Limelight_Tracking() {
+    // These numbers must be tuned for your Robot! Be careful!
+    final double STEER_K = 0.03; // how hard to turn toward the target
+    final double DRIVE_K = 0.26; // how hard to drive fwd toward the target
+    final double DESIRED_TARGET_AREA = 5.0; // Area of the target when the robot reaches the wall
+    final double MAX_DRIVE = 0.7; // Simple speed limit so we don't drive too fast
+
+    m_tv = m_table.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    m_tx = m_table.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    m_ty = m_table.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    m_ta = m_table.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+
+
+    if (m_tv < 1.0) {
+      m_LimelightHasValidTarget = false;
+      m_LimelightDriveCommand = 0.0;
+      m_LimelightSteerCommand = 0.0;
+      return;
+    }
+
+    m_LimelightHasValidTarget = true;
+
+    // Start with proportional steering
+    double steer_cmd = m_tx * STEER_K;
+    m_LimelightSteerCommand = steer_cmd;
+
+    // try to drive forward until the target area reaches our desired area
+    double drive_cmd = (DESIRED_TARGET_AREA - m_ta) * DRIVE_K;
+
+    // don't let the robot drive too fast into the goal
+    if (drive_cmd > MAX_DRIVE) {
+      drive_cmd = MAX_DRIVE;
+    }
+    m_LimelightDriveCommand = drive_cmd;
   }
 }

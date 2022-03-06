@@ -37,6 +37,27 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
+    
+    // m_driveTrain.Update_Limelight_Tracking();
+
+    // double steer = m_speed * m_turn.getAsDouble();
+    // double drive = m_speed * m_forward.getAsDouble();
+    // boolean auto = ActivateLimelight.getLimeLightStatus();
+
+    // steer *= 0.70;
+    // drive *= 0.70;
+
+    // if (auto) {
+    //   // m_driveTrain.getNetworkTableInstance().getDefault().getTable("limelight").getEntry("ledMode").setNumber(<value>);
+    //   if (m_driveTrain.getllValidTarget()) {
+    //     m_driveTrain.arcadeDrive(m_speed * m_driveTrain.getllDrive(), m_speed * m_driveTrain.getllSteer());
+    //   } else {
+    //     m_driveTrain.arcadeDrive(0.0, 0.0);
+    //   }
+    // } else {
+    //   m_driveTrain.arcadeDrive(drive, steer);
+    // }
+
     m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_speed * m_turn.getAsDouble());
   }
 

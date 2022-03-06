@@ -48,6 +48,10 @@ public class IntakeSubsystem extends SubsystemBase {
   public void suck(double inputIntake, double inputIndex) {
     m_intakeMotor.set(inputIntake);
     m_indexMotor.set(inputIndex);
+
+    // if (inputIntake > 0.2) {
+    //   m_intakeMotor.set(MathUtil.clamp(-inputIndex, -0.5, 0));
+    // }
   }
 
   public void stopIntake() {

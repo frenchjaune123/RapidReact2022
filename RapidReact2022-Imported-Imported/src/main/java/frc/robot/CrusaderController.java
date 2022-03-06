@@ -45,4 +45,8 @@ public class CrusaderController extends Joystick {
     public double getRightTrigger() {
         return this.getRawAxis(3);
     }
+
+    public boolean getCrusaderButton(JoystickButton button) {
+        return button.get();
+    }
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -17,7 +19,9 @@ public class ClimbSubsystem extends SubsystemBase {
   private final CANSparkMax m_climberMotor0;
   private final CANSparkMax m_climberMotor1;
   private final DoubleSolenoid m_climberPistons;
-  private boolean intakeIsIn;
+  private final DoubleSolenoid m_clawPiston;
+  private boolean climbIsIn = true;
+  private boolean clawIsIn = true;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
@@ -25,17 +29,29 @@ public class ClimbSubsystem extends SubsystemBase {
     m_climberMotor1 = new CANSparkMax(Constants.CLIMBER_SPARKMAX1, MotorType.kBrushless);
 
     // m_climberMotor0.follow(m_climberMotor1); //climbermotor1 is leading
-    m_climberPistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, // check module type
+    m_climberPistons = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, // check module type
         Constants.CLIMBER_SOLENOID_DEPLOY, Constants.CLIMBER_SOLENOID_RETRACT);
+    m_clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+        Constants.CLAW_SOLENOID_DEPLOY, Constants.CLAW_SOLENOID_RETRACT);
   }
 
   public void climberPush() {
-    if (intakeIsIn) {
+    if (climbIsIn) {
       m_climberPistons.set(Value.kForward);
-      intakeIsIn = false;
+      climbIsIn = false;
     } else {
       m_climberPistons.set(Value.kReverse);
-      intakeIsIn = true;
+      climbIsIn = true;
+    }
+  }
+
+  public void clawPush() {
+    if (clawIsIn) {
+      m_clawPiston.set(Value.kForward);
+      clawIsIn = false;
+    } else {
+      m_clawPiston.set(Value.kReverse);
+      clawIsIn = true;
     }
   }
 
