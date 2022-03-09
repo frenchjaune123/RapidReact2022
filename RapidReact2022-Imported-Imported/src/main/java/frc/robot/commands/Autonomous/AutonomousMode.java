@@ -6,7 +6,10 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Shooter;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -14,17 +17,23 @@ import frc.robot.subsystems.DriveTrain;
 public class AutonomousMode extends SequentialCommandGroup {
   
   DriveTrain m_driveTrain;
+  IntakeSubsystem m_intakeSubsystem;
+  ShooterSubsystem m_shooterSubsystem;
+
   /** Creates a new AutonomousMode. */
   public AutonomousMode(DriveTrain driveTrain) {
     m_driveTrain = driveTrain;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // new RotateCCW(90, 0.5, m_driveTrain)
-      // new RotateCCW(90, m_driveTrain),
       // new TurnToAngle(90, m_driveTrain) //should be rotating 90deg CW
       // new TurnToAngle(-90, m_driveTrain)
-      new TurnToAngle(179, m_driveTrain)
+      new TurnToAngle(179, m_driveTrain),
+
+      new SuckForTime(10, m_intakeSubsystem),
+
+      new ShootForTime(0.5, 10, m_shooterSubsystem, m_intakeSubsystem)
+
 
     );
   }

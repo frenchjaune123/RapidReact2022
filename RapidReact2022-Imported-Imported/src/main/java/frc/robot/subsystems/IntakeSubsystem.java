@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -19,15 +20,16 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   
-  // private final CANSparkMax m_intakeMotor;
-  private final VictorSP m_intakeMotor;
+  private final PWM m_intakeMotor;
+  // private final VictorSP m_intakeMotor;
   private final VictorSP m_indexMotor;
   private final DoubleSolenoid m_intakePistons;
   private boolean intakeIsIn;
   
   /** Creates a new IntakePistonSubsystem. */
   public IntakeSubsystem() {
-    m_intakeMotor = new VictorSP(Constants.INTAKE_REDLINE);
+    // m_intakeMotor = new VictorSP(Constants.INTAKE_REDLINE);
+    m_intakeMotor = new PWM(Constants.INTAKE_REDLINE);
     m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
     m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, //check module type
         Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
@@ -46,7 +48,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void suck(double inputIntake, double inputIndex) {
-    m_intakeMotor.set(inputIntake);
+    // m_intakeMotor.set(inputIntake); //VictorSP
+    m_intakeMotor.setSpeed(inputIntake); //PWM
     m_indexMotor.set(inputIndex);
 
     // if (inputIntake > 0.2) {
@@ -55,8 +58,13 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void stopIntake() {
-    m_intakeMotor.set(0);
+    // m_intakeMotor.set(0);
+    m_intakeMotor.setSpeed(0);
     m_indexMotor.set(0);
+  }
+
+  public double getOutputVoltage() {
+    return m_intakeMotor.getSpeed();
   }
 
   @Override

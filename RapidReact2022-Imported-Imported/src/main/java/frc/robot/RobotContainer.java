@@ -124,7 +124,8 @@ public class RobotContainer {
     // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
     m_controller1.yButton.whenHeld(new ClimbPiston(m_climbSubsystem));
     m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
-    m_controller0.aButton.toggleWhenPressed(new ActivateLimelight());
+    // m_controller0.aButton.toggleWhenPressed(new ActivateLimelight());
+    m_controller0.aButton.whenPressed(new ActivateLimelight());
   }
 
   /**

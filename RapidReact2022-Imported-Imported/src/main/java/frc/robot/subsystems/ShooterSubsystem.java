@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  VictorSP m_shooter;
-  // CANVenom m_shooter;
+  // VictorSP m_shooter;
+  CANVenom m_shooter;
   private double output;
   // MotorController m_motorcontroller;
   
   /** Creates a new Shooter. */
   public ShooterSubsystem() {
-    m_shooter =  new VictorSP(Constants.SHOOTER_VICTORSP0);
-    // m_shooter = new CANVenom(Constants.SHOOTER_VENOM0);
+    // m_shooter =  new VictorSP(Constants.SHOOTER_VICTORSP0);
+    m_shooter = new CANVenom(Constants.SHOOTER_VENOM0);
   }
 
   public void shoot(double input) {
@@ -31,6 +31,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stop() {
     m_shooter.stopMotor();
+  }
+
+  public double getSpeed() {
+    return m_shooter.getSpeed();
   }
 
   @Override

@@ -18,6 +18,8 @@ public class ClimbPulley extends CommandBase {
   public ClimbPulley(DoubleSupplier inputClimbLeft, ClimbSubsystem climbSubsystem) {
     m_climbSubsystem = climbSubsystem;
     m_inputClimbLeft = inputClimbLeft;
+
+    
     // m_inputClimbRight = inputClimbRight;
     
     addRequirements(climbSubsystem);
