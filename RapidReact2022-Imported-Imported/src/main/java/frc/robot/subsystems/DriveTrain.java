@@ -24,16 +24,16 @@ import frc.robot.commands.SlowMode;
 
 public class DriveTrain extends SubsystemBase {
   // VictorSP = practice bot
-  private final DifferentialDrive m_drive;
-  private final VictorSP leftMotor0;
-  private final VictorSP rightMotor0;
+  // private final DifferentialDrive m_drive;
+  // private final VictorSP leftMotor0;
+  // private final VictorSP rightMotor0;
 
   // CANVenom = official bot
-  // private final CANVenom leftMotor0;
-  // private final CANVenom leftMotor1;
-  // private final CANVenom rightMotor0;
-  // private final CANVenom rightMotor1;
-  // private final DifferentialDrive m_drive;
+  private final CANVenom leftMotor0;
+  private final CANVenom leftMotor1;
+  private final CANVenom rightMotor0;
+  private final CANVenom rightMotor1;
+  private final DifferentialDrive m_drive;
 
   private final Gyro m_gyro;
 
@@ -51,23 +51,23 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     // VictorSP
-    leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
-    rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
+    // leftMotor0 = new VictorSP(Constants.DRIVE_LEFT_VICTORSP0);
+    // rightMotor0 = new VictorSP(Constants.DRIVE_RIGHT_VICTORSP0);
 
     // CANVenom
-    // leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
-    // leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
-    // leftMotor0.follow(leftMotor1); // leftMotor1 is leading
-    // rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
-    // rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
-    // rightMotor0.follow(rightMotor1); // rightMotor1 is leading
+    leftMotor0 = new CANVenom(Constants.DRIVE_LEFT_VENOM0);
+    leftMotor1 = new CANVenom(Constants.DRIVE_LEFT_VENOM1);
+    leftMotor0.follow(leftMotor1); // leftMotor1 is leading
+    rightMotor0 = new CANVenom(Constants.DRIVE_RIGHT_VENOM0);
+    rightMotor1 = new CANVenom(Constants.DRIVE_RIGHT_VENOM1);
+    rightMotor0.follow(rightMotor1); // rightMotor1 is leading
 
-    // m_drive = new DifferentialDrive(leftMotor1, rightMotor1); // CANVenom
-    m_drive = new DifferentialDrive(leftMotor0, rightMotor0); //VictorSP
+    m_drive = new DifferentialDrive(leftMotor1, rightMotor1); // CANVenom
+    // m_drive = new DifferentialDrive(leftMotor0, rightMotor0); //VictorSP
 
     // VictorSP
-    leftMotor0.stopMotor();
-    rightMotor0.stopMotor();
+    // leftMotor0.stopMotor();
+    // rightMotor0.stopMotor();
 
     m_gyro = new ADXRS450_Gyro();
     m_gyro.calibrate();
@@ -127,9 +127,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   // Try to find out which motor is most accurate in position, if any
-  // public double getPosition() {
-  //   return leftMotor1.getPosition();
-  // }
+  public double getPosition() {
+    return leftMotor1.getPosition();
+  }
 
   public boolean getllValidTarget() {
     return m_LimelightHasValidTarget;
