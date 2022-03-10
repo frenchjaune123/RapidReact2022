@@ -55,7 +55,7 @@ public class ArcadeDrive extends CommandBase {
           .getEntry("ledMode").setNumber(3);
       if (m_driveTrain.getllValidTarget()) {
         m_driveTrain.arcadeDrive(MathUtil.clamp(m_driveTrain.getllDrive(), -0.4, 0.4), 
-            MathUtil.clamp(m_driveTrain.getllSteer(), -0.4, 0.4)); //left clamp is weaker to accomodate limelight change
+            MathUtil.clamp(m_driveTrain.getllSteer(), -0.5, 0.5)); //left clamp is weaker to accomodate limelight change
       } else {
         m_driveTrain.arcadeDrive(0.0, 0.0);
       }

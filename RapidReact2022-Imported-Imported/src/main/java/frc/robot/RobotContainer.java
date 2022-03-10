@@ -44,9 +44,11 @@ public class RobotContainer {
   
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   // private final Shooter m_shooter = new Shooter();
-  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain);
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+
+  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain, m_intakeSubsystem, m_shooterSubsystem);
+  //autonomous(drivetrain, intake, shooter)
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

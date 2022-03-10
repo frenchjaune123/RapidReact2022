@@ -21,18 +21,20 @@ public class AutonomousMode extends SequentialCommandGroup {
   ShooterSubsystem m_shooterSubsystem;
 
   /** Creates a new AutonomousMode. */
-  public AutonomousMode(DriveTrain driveTrain) {
+  public AutonomousMode(DriveTrain driveTrain, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_driveTrain = driveTrain;
+    m_intakeSubsystem = intakeSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // new TurnToAngle(90, m_driveTrain) //should be rotating 90deg CW
       // new TurnToAngle(-90, m_driveTrain)
-      new TurnToAngle(179, m_driveTrain),
+      new TurnToAngle(179, m_driveTrain)
 
-      new SuckForTime(10, m_intakeSubsystem),
+      // new SuckForTime(10, m_intakeSubsystem),
 
-      new ShootForTime(0.5, 10, m_shooterSubsystem, m_intakeSubsystem)
+      // new ShootForTime(0.5, 10, m_shooterSubsystem, m_intakeSubsystem)
 
 
     );

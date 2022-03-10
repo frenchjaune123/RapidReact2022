@@ -30,7 +30,7 @@ public class TurnToAngle extends PIDCommand {
         output -> {
           // Use the output here
           SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -0.5, 0.5));
-          driveTrain.arcadeDrive(0, -MathUtil.clamp(output, -0.5, 0.5));
+          driveTrain.arcadeDrive(0, MathUtil.clamp(output, -0.7, 0.7)); //+ for final, - for practice
         },
         driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
