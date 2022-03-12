@@ -9,15 +9,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ActivateLimelight;
 import frc.robot.commands.ArcadeDrive;
-// import frc.robot.commands.IntakeMotor;
-// import frc.robot.commands.IntakePiston;
+import frc.robot.commands.ClawPiston;
+import frc.robot.commands.ClimbPiston;
+import frc.robot.commands.ClimbPulley;
+import frc.robot.commands.IntakeMotor;
+import frc.robot.commands.IntakePiston;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.Autonomous.AutonomousMode;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveTrain;
-// import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -39,8 +44,11 @@ public class RobotContainer {
   
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   // private final Shooter m_shooter = new Shooter();
-  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain);
-  // private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+
+  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain, m_intakeSubsystem, m_shooterSubsystem);
+  //autonomous(drivetrain, intake, shooter)
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -81,8 +89,8 @@ public class RobotContainer {
     //     () -> -m_controller0.getLeftStickY(), m_drivetrain)
     // );
 
-    // new
-    m_drivetrain.setDefaultCommand(
+    // practice bot wants (-,+), new robot wants (+,-)
+    m_drivetrain.setDefaultCommand( 
       new ArcadeDrive(
         () -> m_controller0.getLeftStickY(), 
         () -> -m_controller0.getRightStickX(), m_drivetrain)
@@ -93,10 +101,16 @@ public class RobotContainer {
         () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
     );
 
-    // m_intakeSubsystem.setDefaultCommand(
-    //   new IntakeMotor(
-    //     () -> m_controller1.getRightStickY(), m_intakeSubsystem)
-    // );
+    m_intakeSubsystem.setDefaultCommand(
+      new IntakeMotor(
+        () -> m_controller1.getLeftTrigger(), //first param = intake
+        () -> m_controller1.getRightTrigger(), m_intakeSubsystem) //second param = index
+    );
+
+    m_climbSubsystem.setDefaultCommand(
+      new ClimbPulley(
+        () -> m_controller1.getLeftStickY(), m_climbSubsystem)
+    );
   }
 
   /**
@@ -110,6 +124,10 @@ public class RobotContainer {
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
     m_controller0.xButton.toggleWhenPressed(new SlowMode());
     // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
+    m_controller1.yButton.whenHeld(new ClimbPiston(m_climbSubsystem));
+    m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
+    // m_controller0.aButton.toggleWhenPressed(new ActivateLimelight());
+    m_controller0.aButton.whenPressed(new ActivateLimelight());
   }
 
   /**

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -37,7 +38,36 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_speed * m_turn.getAsDouble());
+    
+    m_driveTrain.Update_Limelight_Tracking();
+
+    // double steer = m_speed * m_turn.getAsDouble();
+    // double drive = m_speed * m_forward.getAsDouble();
+    boolean auto = ActivateLimelight.getLimeLightStatus();
+
+    // steer *= 0.70;
+    // drive *= 0.70;
+
+    if (auto) {
+      m_driveTrain.getNetworkTableInstance().getDefault().getTable("limelight") //enables vision processing
+          .getEntry("camMode").setNumber(0);
+      m_driveTrain.getNetworkTableInstance().getDefault().getTable("limelight") //turns on limelight
+          .getEntry("ledMode").setNumber(3);
+      if (m_driveTrain.getllValidTarget()) {
+        m_driveTrain.arcadeDrive(MathUtil.clamp(m_driveTrain.getllDrive(), -0.4, 0.4), 
+            MathUtil.clamp(m_driveTrain.getllSteer(), -0.5, 0.5)); //left clamp is weaker to accomodate limelight change
+      } else {
+        m_driveTrain.arcadeDrive(0.0, 0.0);
+      }
+    } else {
+      m_driveTrain.getNetworkTableInstance().getDefault().getTable("limelight") //turns off limelight
+          .getEntry("ledMode").setNumber(1);
+      m_driveTrain.getNetworkTableInstance().getDefault().getTable("limelight") //disables vision processing
+          .getEntry("camMode").setNumber(1);
+      m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_turn.getAsDouble());
+    }
+
+    // m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_speed * m_turn.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -54,5 +84,9 @@ public class ArcadeDrive extends CommandBase {
 
   public static void setSpeed(double speed) {
     m_speed = speed; 
+  }
+  
+  public static double getSpeed() {
+    return m_speed;
   }
 }
