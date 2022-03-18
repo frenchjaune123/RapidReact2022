@@ -104,7 +104,7 @@ public class RobotContainer {
     m_intakeSubsystem.setDefaultCommand(
       new IntakeMotor(
         () -> m_controller1.getLeftTrigger(), //first param = intake
-        () -> m_controller1.getRightTrigger(), m_intakeSubsystem) //second param = index
+        () -> m_controller1.getRightStickY(), m_intakeSubsystem) //second param = index
     );
 
     m_climbSubsystem.setDefaultCommand(
