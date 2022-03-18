@@ -30,13 +30,13 @@ public class AutonomousMode extends SequentialCommandGroup {
     addCommands(
       // new TurnToAngle(90, m_driveTrain) //should be rotating 90deg CW
       // new TurnToAngle(-90, m_driveTrain)
-      new TurnToAngle(179, m_driveTrain)
+      // new TurnToAngle(179, m_driveTrain)
 
       // new SuckForTime(10, m_intakeSubsystem),
 
-      // new ShootForTime(0.5, 10, m_shooterSubsystem, m_intakeSubsystem)
+      // new ShootForTime(1, 10, m_shooterSubsystem, m_intakeSubsystem),
 
-
+      // new DriveDistance(-5, m_driveTrain)
     );
   }
 }

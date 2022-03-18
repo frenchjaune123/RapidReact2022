@@ -7,6 +7,14 @@ package frc.robot.subsystems;
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.ControlMode;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.HttpCamera.HttpCameraKind;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -48,6 +56,8 @@ public class DriveTrain extends SubsystemBase {
   private double m_LimelightDriveCommand = 0.0;
   private double m_LimelightSteerCommand = 0.0;
 
+  HttpCamera limelightFeed;
+
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
     // VictorSP
@@ -72,6 +82,34 @@ public class DriveTrain extends SubsystemBase {
     m_gyro = new ADXRS450_Gyro();
     m_gyro.calibrate();
     m_gyro.reset();
+
+    // // Creates UsbCamera and MjpegServer [1] and connects them
+    // UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+    // MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+    // mjpegServer1.setSource(usbCamera);
+
+    // // Creates the CvSink and connects it to the UsbCamera
+    // CvSink cvSink = new CvSink("opencv_USB Camera 0");
+    // cvSink.setSource(usbCamera);
+
+    // // Creates the CvSource and MjpegServer [2] and connects them
+    // CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 30);
+    // MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
+    // mjpegServer2.setSource(outputStream);
+
+
+
+    // Creates UsbCamera and MjpegServer [1] and connects them
+    CameraServer.startAutomaticCapture();
+
+    // Creates the CvSink and connects it to the UsbCamera
+    CvSink cvSink = CameraServer.getVideo();
+
+    // Creates the CvSource and MjpegServer [2] and connects them
+    CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+
+    // limelightFeed = new HttpCamera("limelight", "http://10.3.22.11:5800/stream.mjpg", HttpCameraKind.kMJPGStreamer);
+    // CameraServer.startAutomaticCapture(limelightFeed);
 
     // addChild("Drive", m_drive);
   }
@@ -127,9 +165,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   // Try to find out which motor is most accurate in position, if any
-  // public double getPosition() {
-    // return leftMotor1.getPosition();
-  // }
+  public double getPosition() {
+    return leftMotor1.getPosition();
+  }
 
   public boolean getllValidTarget() {
     return m_LimelightHasValidTarget;
