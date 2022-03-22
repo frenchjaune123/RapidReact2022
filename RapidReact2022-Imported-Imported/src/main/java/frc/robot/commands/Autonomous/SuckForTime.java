@@ -34,7 +34,7 @@ public class SuckForTime extends CommandBase {
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    initialVoltage = m_intakeSubsystem.getOutputVoltage();
+    // initialVoltage = m_intakeSubsystem.getOutputVoltage();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,9 +44,9 @@ public class SuckForTime extends CommandBase {
       m_intakeSubsystem.suck(0.5, 0);
     }
 
-    if (initialVoltage - m_intakeSubsystem.getOutputVoltage() > 1) { //test to see appropriate change
-      finalVoltage = m_intakeSubsystem.getOutputVoltage();
-    }
+    // if (initialVoltage - m_intakeSubsystem.getOutputVoltage() > 1) { //test to see appropriate change
+    //   finalVoltage = m_intakeSubsystem.getOutputVoltage();
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -56,9 +56,7 @@ public class SuckForTime extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (finalVoltage - initialVoltage > 1) {
-      isFinished = true;
-    } else if (m_timer.get() == m_time) {
+    if (m_timer.get() == m_time) {
       isFinished = true;
     }
     

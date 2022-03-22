@@ -23,7 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final PWM m_intakeMotor;
   // private final VictorSP m_intakeMotor;
   private final VictorSP m_indexMotor;
-  private final DoubleSolenoid m_intakePistons;
+  // private final DoubleSolenoid m_intakePistons;
   private boolean intakeIsIn;
   
   /** Creates a new IntakePistonSubsystem. */
@@ -31,21 +31,21 @@ public class IntakeSubsystem extends SubsystemBase {
     // m_intakeMotor = new VictorSP(Constants.INTAKE_REDLINE);
     m_intakeMotor = new PWM(Constants.INTAKE_REDLINE);
     m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
-    m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, //check module type
-        Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
+    // m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, //check module type
+        // Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
     
   }
 
-  public void pistonPush() {
-    if(intakeIsIn) {
-      m_intakePistons.set(Value.kForward);
-      intakeIsIn = false;
-    }
-    else {
-      m_intakePistons.set(Value.kReverse);
-      intakeIsIn = true;
-    }
-  }
+  // public void pistonPush() {
+  //   if(intakeIsIn) {
+  //     m_intakePistons.set(Value.kForward);
+  //     intakeIsIn = false;
+  //   }
+  //   else {
+  //     m_intakePistons.set(Value.kReverse);
+  //     intakeIsIn = true;
+  //   }
+  // }
 
   public void suck(double inputIntake, double inputIndex) {
     // m_intakeMotor.set(inputIntake); //VictorSP
