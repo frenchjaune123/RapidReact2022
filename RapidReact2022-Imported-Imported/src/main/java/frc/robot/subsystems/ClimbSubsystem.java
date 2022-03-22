@@ -9,9 +9,13 @@ import java.util.function.DoubleSupplier;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,19 +24,29 @@ public class ClimbSubsystem extends SubsystemBase {
   private final CANSparkMax m_climberMotor1;
   private final DoubleSolenoid m_climberPistons;
   private final DoubleSolenoid m_clawPiston;
+  // private final Solenoid testSolenoid;
+  private final Compressor m_compressor;
   private boolean climbIsIn = true;
   private boolean clawIsIn = true;
+
+  private PowerDistribution m_powerDistribution;
 
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
     m_climberMotor0 = new CANSparkMax(Constants.CLIMBER_SPARKMAX0, MotorType.kBrushless);
     m_climberMotor1 = new CANSparkMax(Constants.CLIMBER_SPARKMAX1, MotorType.kBrushless);
 
-    // m_climberMotor0.follow(m_climberMotor1); //climbermotor1 is leading
+    m_climberMotor0.follow(m_climberMotor1); //climbermotor1 is leading
     m_climberPistons = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, // check module type
         Constants.CLIMBER_SOLENOID_DEPLOY, Constants.CLIMBER_SOLENOID_RETRACT);
     m_clawPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
         Constants.CLAW_SOLENOID_DEPLOY, Constants.CLAW_SOLENOID_RETRACT);
+    // testSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+
+    m_powerDistribution = new PowerDistribution();
+    m_powerDistribution.clearStickyFaults();
+
+    m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   }
 
   public void climberPush() {
@@ -43,6 +57,7 @@ public class ClimbSubsystem extends SubsystemBase {
       m_climberPistons.set(Value.kReverse);
       climbIsIn = true;
     }
+    // testSolenoid.set(!testSolenoid.get());
   }
 
   public void clawPush() {
@@ -56,9 +71,9 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void climb(double inputLeft) {
-    m_climberMotor0.set(inputLeft);
+    m_climberMotor0.set(-inputLeft);
     // m_climberMotor1.set(inputRight);
-    m_climberMotor1.set(-inputLeft);
+    m_climberMotor1.set(inputLeft);
   }
 
   public void stopClimb() {
@@ -68,5 +83,7 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // SmartDashboard.putNumber("climb", m_climberMotor0.getEncoder().getVelocity());
   }
 }

@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
@@ -17,6 +18,8 @@ public class ArcadeDrive extends CommandBase {
   private final DoubleSupplier m_forward;
   private final DoubleSupplier m_turn;
 
+  private NetworkTableInstance m_table;
+
   private static double m_speed;
 
   /** Creates a new TankDrive. */
@@ -24,6 +27,9 @@ public class ArcadeDrive extends CommandBase {
     m_driveTrain = driveTrain;
     m_forward = forward;
     m_turn = turn;
+
+    m_table = m_driveTrain.getNetworkTableInstance();
+    
     m_speed = 1;
     addRequirements(m_driveTrain);
   }
@@ -41,12 +47,7 @@ public class ArcadeDrive extends CommandBase {
     
     m_driveTrain.Update_Limelight_Tracking();
 
-    // double steer = m_speed * m_turn.getAsDouble();
-    // double drive = m_speed * m_forward.getAsDouble();
     boolean auto = ActivateLimelight.getLimeLightStatus();
-
-    // steer *= 0.70;
-    // drive *= 0.70;
 
     if (auto) {
       m_driveTrain.getNetworkTableInstance().getDefault().getTable("limelight") //enables vision processing
@@ -67,7 +68,7 @@ public class ArcadeDrive extends CommandBase {
       m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_turn.getAsDouble());
     }
 
-    // m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_speed * m_turn.getAsDouble());
+    m_driveTrain.arcadeDrive(m_speed * m_forward.getAsDouble(), m_speed * m_turn.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

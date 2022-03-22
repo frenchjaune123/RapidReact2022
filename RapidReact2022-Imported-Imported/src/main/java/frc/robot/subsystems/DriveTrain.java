@@ -15,9 +15,11 @@ import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.HttpCamera.HttpCameraKind;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -56,7 +58,9 @@ public class DriveTrain extends SubsystemBase {
   private double m_LimelightDriveCommand = 0.0;
   private double m_LimelightSteerCommand = 0.0;
 
-  HttpCamera limelightFeed;
+  private Timer m_timer;
+
+  // HttpCamera limelightFeed;
 
   /** Creates a new ExampleSubsystem. */
   public DriveTrain() {
@@ -82,34 +86,19 @@ public class DriveTrain extends SubsystemBase {
     m_gyro = new ADXRS450_Gyro();
     m_gyro.calibrate();
     m_gyro.reset();
+    
 
-    // // Creates UsbCamera and MjpegServer [1] and connects them
-    // UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
-    // MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
-    // mjpegServer1.setSource(usbCamera);
-
-    // // Creates the CvSink and connects it to the UsbCamera
-    // CvSink cvSink = new CvSink("opencv_USB Camera 0");
-    // cvSink.setSource(usbCamera);
-
-    // // Creates the CvSource and MjpegServer [2] and connects them
-    // CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 30);
-    // MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
-    // mjpegServer2.setSource(outputStream);
-
-
+    m_timer = new Timer();
 
     // Creates UsbCamera and MjpegServer [1] and connects them
-    CameraServer.startAutomaticCapture();
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    camera.setResolution(320, 240);
+    camera.setFPS(20);
+    // // Creates the CvSink and connects it to the UsbCamera
+    // CvSink cvSink = CameraServer.getVideo();
 
-    // Creates the CvSink and connects it to the UsbCamera
-    CvSink cvSink = CameraServer.getVideo();
-
-    // Creates the CvSource and MjpegServer [2] and connects them
-    CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
-
-    // limelightFeed = new HttpCamera("limelight", "http://10.3.22.11:5800/stream.mjpg", HttpCameraKind.kMJPGStreamer);
-    // CameraServer.startAutomaticCapture(limelightFeed);
+    // // Creates the CvSource and MjpegServer [2] and connects them
+    // CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
 
     // addChild("Drive", m_drive);
   }
@@ -141,6 +130,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_drive.feed();
     log();
   }
 
@@ -158,16 +148,16 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void resetPosition() {
-    // leftMotor0.resetPosition();
-    // leftMotor1.resetPosition();
-    // rightMotor0.resetPosition();
-    // rightMotor1.resetPosition();
+    leftMotor0.resetPosition();
+    leftMotor1.resetPosition();
+    rightMotor0.resetPosition();
+    rightMotor1.resetPosition();
   }
 
   // Try to find out which motor is most accurate in position, if any
-  public double getPosition() {
-    return leftMotor1.getPosition();
-  }
+  // public double getPosition() {
+  //   return leftMotor1.getPosition();
+  // }
 
   public boolean getllValidTarget() {
     return m_LimelightHasValidTarget;
@@ -181,6 +171,32 @@ public class DriveTrain extends SubsystemBase {
     return m_LimelightSteerCommand;
   } 
 
+  public void startTimer() {
+    m_timer.start();
+  }
+
+  public void stopTimer() {
+    m_timer.stop();
+  }
+
+  public double getTimer() {
+    return m_timer.get();
+  }
+
+  public void resetTimer() {
+    m_timer.reset();
+  }
+
+  // drive autonomous math
+  // canvenom api getposition() gets revolutions of motor since last time it was cleared 
+  // <<< clearMotionProfilePoints() clears the stored data
+  // # of revolutions * (2*pi*r) / 6 = distance traveled by the robot
+  public double getPosition() {
+    double wheelRadius = 3;
+    return leftMotor1.getPosition() * (2 * Math.PI * wheelRadius) / 6;
+  }
+
+
   public void log() {
     // SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
@@ -193,12 +209,14 @@ public class DriveTrain extends SubsystemBase {
     // SmartDashboard.putNumber("RightPosition0", rightMotor0.getPosition());
     // SmartDashboard.putNumber("RightPosition1", rightMotor1.getPosition());
 
-    SmartDashboard.putNumber("tv", m_tv);
-    SmartDashboard.putNumber("tx", m_tx);
-    SmartDashboard.putNumber("ty", m_ty);
-    SmartDashboard.putNumber("ta", m_ta);
 
-    SmartDashboard.putNumber("setted speed", ArcadeDrive.getSpeed());
+    // SmartDashboard.putNumber("rightmotor rpm", rightMotor1.getSpeed());
+    // SmartDashboard.putNumber("tv", m_tv);
+    // SmartDashboard.putNumber("tx", m_tx);
+    // SmartDashboard.putNumber("ty", m_ty);
+    // SmartDashboard.putNumber("ta", m_ta);
+
+    // SmartDashboard.putNumber("setted speed", ArcadeDrive.getSpeed());
   }
 
 

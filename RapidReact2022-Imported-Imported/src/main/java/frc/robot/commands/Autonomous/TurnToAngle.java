@@ -29,7 +29,7 @@ public class TurnToAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -0.5, 0.5));
+          // SmartDashboard.putNumber("auto output", MathUtil.clamp(output, -0.5, 0.5));
           driveTrain.arcadeDrive(0, MathUtil.clamp(output, -0.7, 0.7)); //+ for final, - for practice
         },
         driveTrain);
@@ -48,10 +48,10 @@ public class TurnToAngle extends PIDCommand {
   public boolean isFinished() {
     isFinished = getController().atSetpoint();
 
-    SmartDashboard.putBoolean("tta PID isFinished", isFinished);
-    SmartDashboard.putNumber("tta position error", this.getController().getPositionError());
-    SmartDashboard.putNumber("tta measurement", this.m_measurement.getAsDouble());
-    SmartDashboard.putNumber("tta setpointsource", this.m_setpoint.getAsDouble());
+    // SmartDashboard.putBoolean("tta PID isFinished", isFinished);
+    // SmartDashboard.putNumber("tta position error", this.getController().getPositionError());
+    // SmartDashboard.putNumber("tta measurement", this.m_measurement.getAsDouble());
+    // SmartDashboard.putNumber("tta setpointsource", this.m_setpoint.getAsDouble());
 
     if (isFinished) {
       getController().reset();

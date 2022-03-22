@@ -16,16 +16,18 @@ import frc.robot.commands.ClimbPiston;
 import frc.robot.commands.ClimbPulley;
 import frc.robot.commands.IntakeMotor;
 import frc.robot.commands.IntakePiston;
+import frc.robot.commands.ShootButton;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.Autonomous.AutonomousMode;
+import frc.robot.commands.Autonomous.ShootForTime;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
 /**
@@ -95,6 +97,12 @@ public class RobotContainer {
         () -> m_controller0.getLeftStickY(), 
         () -> -m_controller0.getRightStickX(), m_drivetrain)
     );
+
+    // m_drivetrain.setDefaultCommand(
+    //   new RunCommand(() -> m_drivetrain.arcadeDrive(
+    //   m_controller0.getLeftStickY(), 
+    //   m_controller0.getRightStickX()), m_drivetrain)
+    // );
     
     m_shooterSubsystem.setDefaultCommand(
       new Shooter(
@@ -109,7 +117,7 @@ public class RobotContainer {
 
     m_climbSubsystem.setDefaultCommand(
       new ClimbPulley(
-        () -> m_controller1.getLeftStickY(), m_climbSubsystem)
+        () -> m_controller1.applyDeadband(m_controller1.getLeftStickY()), m_climbSubsystem)
     );
   }
 
@@ -122,12 +130,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // l_controller0.l_button3.toggleWhenPressed(new SlowMode());
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
-    m_controller0.xButton.toggleWhenPressed(new SlowMode());
+    m_controller0.yButton.toggleWhenPressed(new SlowMode());
     // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
+
+    
     m_controller1.yButton.whenHeld(new ClimbPiston(m_climbSubsystem));
     m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
-    // m_controller0.aButton.toggleWhenPressed(new ActivateLimelight());
-    m_controller0.aButton.whenPressed(new ActivateLimelight());
+    // m_controller0.aButton.whenPressed(new ActivateLimelight());
+    m_controller0.xButton.whenPressed(new ShootButton(1, 0.8, m_shooterSubsystem));
+    m_controller0.aButton.whenPressed(new ShootForTime(0.5, 1, m_shooterSubsystem, m_intakeSubsystem));
   }
 
   /**
@@ -138,5 +149,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autonomousMode;
+    // return null;
   }
 }

@@ -21,7 +21,7 @@ public class DriveDistance extends PIDCommand {
   public DriveDistance(double position, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController(1, 0, 0.16),
         // This should return the measurement
         () -> driveTrain.getPosition(),
         // This should return the setpoint (can also be a constant)

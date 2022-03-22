@@ -49,4 +49,13 @@ public class CrusaderController extends Joystick {
     public boolean getCrusaderButton(JoystickButton button) {
         return button.get();
     }
+
+    public double applyDeadband(double input) {
+        if (Math.abs(input) < 0.1) {
+            return 0;
+        } else {
+            return input;
+        }
+
+    }
 }

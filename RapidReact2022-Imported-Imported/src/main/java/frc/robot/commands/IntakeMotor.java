@@ -32,7 +32,7 @@ public class IntakeMotor extends CommandBase {
   @Override
   public void execute() {
     m_intakeSubsystem.suck(
-      MathUtil.clamp(m_inputIntake.getAsDouble(), -0.5, 0.5), //first param = intake
+      MathUtil.clamp(m_inputIntake.getAsDouble(), -0.7, 0.7), //first param = intake
       MathUtil.clamp(m_inputIndex.getAsDouble(), -0.5, 0.5)); //second param = index
   }
 

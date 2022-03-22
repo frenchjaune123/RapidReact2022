@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.playingwithfusion.CANVenom;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,12 +17,15 @@ public class ShooterSubsystem extends SubsystemBase {
   // VictorSP m_shooter;
   CANVenom m_shooter;
   private double output;
+  private Timer m_timer;
   // MotorController m_motorcontroller;
+  
   
   /** Creates a new Shooter. */
   public ShooterSubsystem() {
     // m_shooter =  new VictorSP(Constants.SHOOTER_VICTORSP0);
     m_shooter = new CANVenom(Constants.SHOOTER_VENOM0);
+    m_timer = new Timer();
   }
 
   public void shoot(double input) {
@@ -35,6 +39,22 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getSpeed() {
     return m_shooter.getSpeed();
+  }
+
+  public void startTimer() {
+    m_timer.start();
+  }
+
+  public void stopTimer() {
+    m_timer.stop();
+  }
+
+  public double getTimer() {
+    return m_timer.get();
+  }
+
+  public void resetTimer() {
+    m_timer.reset();
   }
 
   @Override

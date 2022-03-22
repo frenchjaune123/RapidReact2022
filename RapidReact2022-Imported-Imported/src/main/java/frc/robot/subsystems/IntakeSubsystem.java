@@ -12,6 +12,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // private final VictorSP m_intakeMotor;
   private final VictorSP m_indexMotor;
   // private final DoubleSolenoid m_intakePistons;
+  private Timer m_timer;
   private boolean intakeIsIn;
   
   /** Creates a new IntakePistonSubsystem. */
@@ -31,6 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // m_intakeMotor = new VictorSP(Constants.INTAKE_REDLINE);
     m_intakeMotor = new PWM(Constants.INTAKE_REDLINE);
     m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
+    m_timer = new Timer();
     // m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, //check module type
         // Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
     
@@ -67,6 +70,22 @@ public class IntakeSubsystem extends SubsystemBase {
     return m_intakeMotor.getSpeed();
   }
 
+  public void startTimer() {
+    m_timer.start();
+  }
+
+  public void stopTimer() {
+    m_timer.stop();
+  }
+
+  public double getTimer() {
+    return m_timer.get();
+  }
+
+  public void resetTimer() {
+    m_timer.reset();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -74,7 +93,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void log() {
-    SmartDashboard.putBoolean("Intake is in", intakeIsIn);
+    // SmartDashboard.putBoolean("Intake is in", intakeIsIn);
     // SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getSpeed());
     // SmartDashboard.putNumber("Intake bus voltage", m_intakeMotor.getBusVoltage());
     // SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getAppliedOutput());
