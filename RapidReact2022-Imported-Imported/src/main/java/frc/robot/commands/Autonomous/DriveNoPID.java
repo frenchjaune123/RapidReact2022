@@ -43,6 +43,7 @@ public class DriveNoPID extends CommandBase {
   public void initialize() {
     // m_timer.reset();
     // m_timer.start();
+    m_driveTrain.resetPosition();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,7 +60,9 @@ public class DriveNoPID extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_driveTrain.stop();
+  }
 
   // Returns true when the command should end.
   @Override

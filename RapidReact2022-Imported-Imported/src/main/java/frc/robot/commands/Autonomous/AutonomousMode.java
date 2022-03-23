@@ -38,8 +38,8 @@ public class AutonomousMode extends SequentialCommandGroup {
 
       // new ShootForTime(0.7, 0.3, m_shooterSubsystem, m_intakeSubsystem),
 
-      // new DriveDistance(5, m_driveTrain)
-      new DriveNoPID(1, m_driveTrain)
+      new DriveDistance(3, m_driveTrain)
+      // new DriveNoPID(3, m_driveTrain) //negative is forward
     );
   }
 }

@@ -21,7 +21,7 @@ public class DriveDistance extends PIDCommand {
   public DriveDistance(double position, DriveTrain driveTrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0.16),
+        new PIDController(3, 0, 0), //1,0,0.16
         // This should return the measurement
         () -> driveTrain.getPosition(),
         // This should return the setpoint (can also be a constant)
@@ -29,6 +29,9 @@ public class DriveDistance extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
+        //   SmartDashboard.putNumber("drdist measurement", driveTrain.getPosition());
+        //   SmartDashboard.putNumber("drdist position", position);
+
           SmartDashboard.putNumber("drdist output", MathUtil.clamp(output, -0.5, 0.5));
           driveTrain.arcadeDrive(MathUtil.clamp(output, -0.5, 0.5), 0);
         },
@@ -37,13 +40,22 @@ public class DriveDistance extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
     m_driveTrain = driveTrain;
     getController().enableContinuousInput(-50, 50);
-    getController().setTolerance(1, 10);
+    getController().setTolerance(0.01, 10);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    isFinished = getController().atSetpoint();
+    isFinished = getController().atSetpoint(); //think the position() does not change often enough
+    // isFinished = false;
+
+    SmartDashboard.putBoolean("drdist PID isFinished", isFinished);
+    SmartDashboard.putNumber("drdist position error", this.getController().getPositionError());
+    SmartDashboard.putNumber("drdist measurement", this.m_measurement.getAsDouble());
+    SmartDashboard.putNumber("drdist setpointsource", this.m_setpoint.getAsDouble());
+
+
+
 
     if (isFinished) {
       getController().reset();
@@ -55,5 +67,6 @@ public class DriveDistance extends PIDCommand {
   @Override
   public void initialize() {
     m_driveTrain.resetPosition();
+    getController().reset();
   }
 }

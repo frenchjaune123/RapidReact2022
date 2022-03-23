@@ -125,6 +125,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void stop() {
+    m_drive.arcadeDrive(0, 0);
   }
 
   @Override
@@ -193,11 +194,13 @@ public class DriveTrain extends SubsystemBase {
   // # of revolutions * (2*pi*r) / 6 = distance traveled by the robot
   public double getPosition() {
     double wheelRadius = 3;
-    return leftMotor1.getPosition() * (2 * Math.PI * wheelRadius) / 6;
+    return leftMotor1.getPosition() * (2 * Math.PI * wheelRadius/12) / 6; //gives distance  in feet
   }
 
 
   public void log() {
+    SmartDashboard.putNumber("drivetrain rotations", leftMotor1.getPosition());
+    
     // SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
     // SmartDashboard.putNumber("LeftSpeed0", leftMotor0.getSpeed());
     // SmartDashboard.putNumber("LeftSpeed1", leftMotor1.getSpeed());
