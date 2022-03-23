@@ -118,6 +118,7 @@ public class RobotContainer {
     m_climbSubsystem.setDefaultCommand(
       new ClimbPulley(
         () -> m_controller1.applyDeadband(m_controller1.getLeftStickY()), m_climbSubsystem)
+        // () -> m_controller1.getLeftStickY(), m_climbSubsystem)
     );
   }
 
@@ -130,14 +131,18 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // l_controller0.l_button3.toggleWhenPressed(new SlowMode());
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
-    m_controller0.yButton.toggleWhenPressed(new SlowMode());
+    
     // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
 
-    
+    m_controller1.aButton.whenHeld(new IntakePiston(m_intakeSubsystem));
     m_controller1.yButton.whenHeld(new ClimbPiston(m_climbSubsystem));
     m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
+
+
+
     // m_controller0.aButton.whenPressed(new ActivateLimelight());
     m_controller0.xButton.whenPressed(new ShootButton(1, 0.8, m_shooterSubsystem));
+    m_controller0.yButton.toggleWhenPressed(new SlowMode());
     m_controller0.aButton.whenPressed(new ShootForTime(0.5, 1, m_shooterSubsystem, m_intakeSubsystem));
   }
 

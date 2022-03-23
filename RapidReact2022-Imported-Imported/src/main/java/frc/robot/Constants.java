@@ -36,8 +36,8 @@ public final class Constants {
     public static final int SHOOTER_VENOM0 = 4;
 
     //Pneumatics
-    // public static final int INTAKE_SOLENOID_DEPLOY = 11; //check for actual pneumatic ports
-    // public static final int INTAKE_SOLENOID_RETRACT = 10; //this, too ^^
+    public static final int INTAKE_SOLENOID_DEPLOY = 4; //check for actual pneumatic ports
+    public static final int INTAKE_SOLENOID_RETRACT = 5; //this, too ^^
     public static final int CLIMBER_SOLENOID_DEPLOY = 2; //2
     public static final int CLIMBER_SOLENOID_RETRACT = 3; //3
     public static final int CLAW_SOLENOID_DEPLOY = 0; //0 TOO

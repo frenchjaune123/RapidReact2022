@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final PWM m_intakeMotor;
   // private final VictorSP m_intakeMotor;
   private final VictorSP m_indexMotor;
-  // private final DoubleSolenoid m_intakePistons;
+  private final DoubleSolenoid m_intakePistons;
   private Timer m_timer;
   private boolean intakeIsIn;
   
@@ -34,21 +34,21 @@ public class IntakeSubsystem extends SubsystemBase {
     m_intakeMotor = new PWM(Constants.INTAKE_REDLINE);
     m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
     m_timer = new Timer();
-    // m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, //check module type
-        // Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
+    m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, //check module type
+        Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
     
   }
 
-  // public void pistonPush() {
-  //   if(intakeIsIn) {
-  //     m_intakePistons.set(Value.kForward);
-  //     intakeIsIn = false;
-  //   }
-  //   else {
-  //     m_intakePistons.set(Value.kReverse);
-  //     intakeIsIn = true;
-  //   }
-  // }
+  public void pistonPush() {
+    if(intakeIsIn) {
+      m_intakePistons.set(Value.kForward);
+      intakeIsIn = false;
+    }
+    else {
+      m_intakePistons.set(Value.kReverse);
+      intakeIsIn = true;
+    }
+  }
 
   public void suck(double inputIntake, double inputIndex) {
     // m_intakeMotor.set(inputIntake); //VictorSP
@@ -93,7 +93,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void log() {
-    // SmartDashboard.putBoolean("Intake is in", intakeIsIn);
+    SmartDashboard.putBoolean("Intake is in", intakeIsIn);
     // SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getSpeed());
     // SmartDashboard.putNumber("Intake bus voltage", m_intakeMotor.getBusVoltage());
     // SmartDashboard.putNumber("Intake motor RPM", m_intakeMotor.getAppliedOutput());
