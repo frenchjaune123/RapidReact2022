@@ -33,6 +33,10 @@ public class ShooterSubsystem extends SubsystemBase {
     output = input;
   }
 
+  // public void setRPM(double input) {
+  //   m_shooter.setSpeed
+  // }
+
   public void stop() {
     m_shooter.stopMotor();
   }
@@ -55,6 +59,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void resetTimer() {
     m_timer.reset();
+  }
+
+  public double getRPM() {
+    return m_shooter.getSpeed();
+  }
+
+  public double getVoltage() {
+    return m_shooter.getOutputCurrent();
   }
 
   @Override

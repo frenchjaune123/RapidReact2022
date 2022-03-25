@@ -60,6 +60,14 @@ public class IntakeSubsystem extends SubsystemBase {
     // }
   }
 
+  public void intake(double inputIntake) {
+    m_intakeMotor.setSpeed(inputIntake);
+  }
+
+  public void index(double inputIndex) {
+    m_indexMotor.set(inputIndex);
+  }
+
   public void stopIntake() {
     // m_intakeMotor.set(0);
     m_intakeMotor.setSpeed(0);

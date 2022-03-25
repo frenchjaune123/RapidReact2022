@@ -10,13 +10,13 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeMotor extends CommandBase {
+public class IntakeIndex extends CommandBase {
   private final IntakeSubsystem m_intakeSubsystem;
   private final DoubleSupplier m_inputIntake;
   private final DoubleSupplier m_inputIndex;
 
   /** Creates a new IntakeMotor. */
-  public IntakeMotor(DoubleSupplier inputIntake, DoubleSupplier inputIndex, IntakeSubsystem intakeSubsystem) {
+  public IntakeIndex(DoubleSupplier inputIntake, DoubleSupplier inputIndex, IntakeSubsystem intakeSubsystem) {
     m_intakeSubsystem = intakeSubsystem;
     m_inputIntake = inputIntake;
     m_inputIndex = inputIndex;

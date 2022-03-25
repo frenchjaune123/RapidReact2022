@@ -14,10 +14,14 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ClawPiston;
 import frc.robot.commands.ClimbPiston;
 import frc.robot.commands.ClimbPulley;
-import frc.robot.commands.IntakeMotor;
+import frc.robot.commands.IndexCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeButton;
+import frc.robot.commands.IntakeIndex;
 import frc.robot.commands.IntakePiston;
 import frc.robot.commands.ShootButton;
 import frc.robot.commands.Shooter;
+import frc.robot.commands.ShooterReverse;
 import frc.robot.commands.SlowMode;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.Autonomous.AutonomousMode;
@@ -97,23 +101,27 @@ public class RobotContainer {
         () -> m_controller0.getLeftStickY(), 
         () -> -m_controller0.getRightStickX(), m_drivetrain)
     );
-
-    // m_drivetrain.setDefaultCommand(
-    //   new RunCommand(() -> m_drivetrain.arcadeDrive(
-    //   m_controller0.getLeftStickY(), 
-    //   m_controller0.getRightStickX()), m_drivetrain)
-    // );
     
-    m_shooterSubsystem.setDefaultCommand(
-      new Shooter(
-        () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
-    );
+    // m_shooterSubsystem.setDefaultCommand(
+    //   new Shooter(
+    //     () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
+    // );
+
+    // m_intakeSubsystem.setDefaultCommand(
+    //   new IntakeIndex(
+    //     () -> m_controller1.getLeftTrigger(), //first param = intake
+    //     () -> m_controller1.getRightStickY(), m_intakeSubsystem) //second param = index
+    // );
 
     m_intakeSubsystem.setDefaultCommand(
-      new IntakeMotor(
-        () -> m_controller1.getLeftTrigger(), //first param = intake
-        () -> m_controller1.getRightStickY(), m_intakeSubsystem) //second param = index
+      new IndexCommand(
+        () -> m_controller1.getRightStickY(), m_intakeSubsystem)
     );
+
+    // m_intakeSubsystem.setDefaultCommand(
+    //   new IntakeCommand(
+    //     () -> m_controller0.getRightTrigger(), m_intakeSubsystem)
+    // );
 
     m_climbSubsystem.setDefaultCommand(
       new ClimbPulley(
@@ -132,18 +140,27 @@ public class RobotContainer {
     // l_controller0.l_button3.toggleWhenPressed(new SlowMode());
     // l_controller0.l_trigger1.toggleWhenPressed(new Shooter(-0.6, m_shooterSubsystem)); //0.759
     
-    // m_controller1.yButton.whenHeld(new IntakePiston(m_intakeSubsystem));
 
+    //pneumatics
     m_controller1.aButton.whenHeld(new IntakePiston(m_intakeSubsystem));
     m_controller1.yButton.whenHeld(new ClimbPiston(m_climbSubsystem));
     m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
 
+    //shooter
+    m_controller1.rightBumper.toggleWhenPressed(new ShootButton(0.7, m_shooterSubsystem));
+    m_controller1.leftBumper.toggleWhenPressed(new ShooterReverse(-0.3, m_shooterSubsystem));
 
 
-    // m_controller0.aButton.whenPressed(new ActivateLimelight());
-    m_controller0.xButton.whenPressed(new ShootButton(1, 0.8, m_shooterSubsystem));
+    //auto correction
+    m_controller0.aButton.whenPressed(new ActivateLimelight());
     m_controller0.yButton.toggleWhenPressed(new SlowMode());
-    m_controller0.aButton.whenPressed(new ShootForTime(0.5, 1, m_shooterSubsystem, m_intakeSubsystem));
+    
+    //intake buttons
+    m_controller0.rightBumper.whenPressed(new IntakeButton(-0.5, m_intakeSubsystem)); //suck in
+    m_controller0.leftBumper.whenPressed(new IntakeButton(0.5, m_intakeSubsystem)); //suck out
+
+    // m_controller0.aButton.whenPressed(new ShootForTime(0.5, 1, m_shooterSubsystem, m_intakeSubsystem));
+    // m_controller0.xButton.toggleWhenPressed(new ShootButton(0.8, m_shooterSubsystem));
   }
 
   /**
