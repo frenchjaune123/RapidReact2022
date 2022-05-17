@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Shooter;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -18,15 +19,17 @@ public class AutonomousMode extends SequentialCommandGroup {
   
   DriveTrain m_driveTrain;
   IntakeSubsystem m_intakeSubsystem;
+  IndexSubsystem m_indexSubsystem;
   ShooterSubsystem m_shooterSubsystem;
 
   /** Creates a new AutonomousMode. */
-  public AutonomousMode(DriveTrain driveTrain, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public AutonomousMode(DriveTrain driveTrain, IntakeSubsystem intakeSubsystem, IndexSubsystem indexSubsystem, ShooterSubsystem shooterSubsystem) {
     m_driveTrain = driveTrain;
     m_intakeSubsystem = intakeSubsystem;
+    m_indexSubsystem = indexSubsystem;
     m_shooterSubsystem = shooterSubsystem;
 
-    addRequirements(m_driveTrain, m_intakeSubsystem, m_shooterSubsystem);
+    addRequirements(m_driveTrain, m_intakeSubsystem, m_indexSubsystem, m_shooterSubsystem);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -37,9 +40,11 @@ public class AutonomousMode extends SequentialCommandGroup {
       // new SuckForTime(1, m_intakeSubsystem),
 
       // new ShootForTime(0.7, 0.3, m_shooterSubsystem, m_intakeSubsystem),
+      new ShootForTime(0.7, 1, shooterSubsystem, intakeSubsystem, m_indexSubsystem),
 
-      new DriveDistance(3, m_driveTrain)
+      new DriveDistance(6, m_driveTrain)
       // new DriveNoPID(3, m_driveTrain) //negative is forward
+
     );
   }
 }

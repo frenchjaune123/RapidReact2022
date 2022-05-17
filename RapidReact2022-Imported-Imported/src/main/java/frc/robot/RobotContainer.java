@@ -28,6 +28,7 @@ import frc.robot.commands.Autonomous.AutonomousMode;
 import frc.robot.commands.Autonomous.ShootForTime;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,8 +53,9 @@ public class RobotContainer {
   // private final Shooter m_shooter = new Shooter();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private final IndexSubsystem m_indexSubsystem = new IndexSubsystem();
 
-  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain, m_intakeSubsystem, m_shooterSubsystem);
+  private final AutonomousMode m_autonomousMode = new AutonomousMode(m_drivetrain, m_intakeSubsystem, m_indexSubsystem, m_shooterSubsystem);
   //autonomous(drivetrain, intake, shooter)
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -102,20 +104,20 @@ public class RobotContainer {
         () -> -m_controller0.getRightStickX(), m_drivetrain)
     );
     
-    // m_shooterSubsystem.setDefaultCommand(
-    //   new Shooter(
-    //     () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
-    // );
+    m_shooterSubsystem.setDefaultCommand(
+      new Shooter(
+        () -> m_controller1.getRightTrigger(), m_shooterSubsystem)
+    );
 
     // m_intakeSubsystem.setDefaultCommand(
     //   new IntakeIndex(
-    //     () -> m_controller1.getLeftTrigger(), //first param = intake
+    //     () -> 0, //first param = intake
     //     () -> m_controller1.getRightStickY(), m_intakeSubsystem) //second param = index
     // );
 
-    m_intakeSubsystem.setDefaultCommand(
+    m_indexSubsystem.setDefaultCommand(
       new IndexCommand(
-        () -> m_controller1.getRightStickY(), m_intakeSubsystem)
+        () -> m_controller1.getRightStickY(), m_indexSubsystem)
     );
 
     // m_intakeSubsystem.setDefaultCommand(
@@ -147,17 +149,25 @@ public class RobotContainer {
     m_controller1.bButton.whenHeld(new ClawPiston(m_climbSubsystem));
 
     //shooter
-    m_controller1.rightBumper.toggleWhenPressed(new ShootButton(0.7, m_shooterSubsystem));
-    m_controller1.leftBumper.toggleWhenPressed(new ShooterReverse(-0.3, m_shooterSubsystem));
+    // m_controller1.rightBumper.toggleWhenPressed(new ShootButton(0.7, m_shooterSubsystem));
+    // m_controller1.leftBumper.toggleWhenPressed(new ShooterReverse(-0.3, m_shooterSubsystem));
 
+    m_controller1.rightBumper.toggleWhenPressed(new ShootButton(-0.7, m_shooterSubsystem)); //shoot in
+    // m_controller1.rightBumper.whenReleased(new ShooterReverse(0, m_shooterSubsystem)); 
+    m_controller1.leftBumper.whileHeld(new ShooterReverse(-0.8, m_shooterSubsystem)); //shoot out
+    m_controller1.leftBumper.whenReleased(new ShooterReverse(0.0, m_shooterSubsystem)); 
 
     //auto correction
     m_controller0.aButton.whenPressed(new ActivateLimelight());
     m_controller0.yButton.toggleWhenPressed(new SlowMode());
     
     //intake buttons
-    m_controller0.rightBumper.whenPressed(new IntakeButton(-0.5, m_intakeSubsystem)); //suck in
-    m_controller0.leftBumper.whenPressed(new IntakeButton(0.5, m_intakeSubsystem)); //suck out
+    m_controller0.rightBumper.whileHeld(new IntakeButton(0.7, m_intakeSubsystem)); //suck in
+    m_controller0.rightBumper.whenReleased(new IntakeButton(0.0, m_intakeSubsystem)); 
+    m_controller0.leftBumper.whileHeld(new IntakeButton(-0.5, m_intakeSubsystem)); //suck in
+    m_controller0.leftBumper.whenReleased(new IntakeButton(0.0, m_intakeSubsystem)); 
+
+
 
     // m_controller0.aButton.whenPressed(new ShootForTime(0.5, 1, m_shooterSubsystem, m_intakeSubsystem));
     // m_controller0.xButton.toggleWhenPressed(new ShootButton(0.8, m_shooterSubsystem));

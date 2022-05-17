@@ -14,6 +14,9 @@ public class IntakeButton extends CommandBase {
   private double m_inputIntake;
   private IntakeSubsystem m_intakeSubsystem;
 
+  private boolean isSucking = false;
+  private boolean isFinished = false;
+
   /** Creates a new IntakeCommandButton. */
   public IntakeButton(double inputIntake, IntakeSubsystem intakeSubsystem) {
     m_inputIntake = inputIntake;
@@ -31,6 +34,17 @@ public class IntakeButton extends CommandBase {
   @Override
   public void execute() {
     m_intakeSubsystem.intake(m_inputIntake);
+
+    // if (isSucking == false) {
+    //   m_intakeSubsystem.intake(m_inputIntake);
+    //   isSucking = true;
+    //   isFinished = true;
+    // } 
+    // else if (isSucking == true) {
+    //   m_intakeSubsystem.intake(0);
+    //   isSucking = false;
+    //   isFinished = false;
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -41,5 +55,12 @@ public class IntakeButton extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+
+    // if (isFinished == true) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+      // return isFinished;
   }
 }

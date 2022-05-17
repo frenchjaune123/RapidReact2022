@@ -21,7 +21,7 @@ public class ShootButton extends CommandBase {
     m_RPM = RPM;
     m_shooterSubsystem = shooterSubsystem;
     isFinished = false;
-    m_voltage = 0.7;
+    m_voltage = 0.75;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
@@ -40,11 +40,11 @@ public class ShootButton extends CommandBase {
 
     if (m_shooterSubsystem.getRPM() >= 1300) {
       if (m_shooterSubsystem.getRPM() <= 1200) {
-        m_voltage += 0.1;
+        m_voltage += 0.01;
       }
       
       if (m_shooterSubsystem.getRPM() >= 1300) {
-         m_voltage -= 0.1;
+         m_voltage -= 0.01;
       }
     }
 
@@ -75,9 +75,9 @@ public class ShootButton extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooterSubsystem.stopTimer();
-    m_shooterSubsystem.resetTimer();
-    isFinished = false;
+    // m_shooterSubsystem.stopTimer();
+    // m_shooterSubsystem.resetTimer();
+    // isFinished = false;
   }
 
   // Returns true when the command should end.

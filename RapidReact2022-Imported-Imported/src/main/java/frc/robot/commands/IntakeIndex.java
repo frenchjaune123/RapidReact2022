@@ -31,9 +31,9 @@ public class IntakeIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.suck(
-      MathUtil.clamp(m_inputIntake.getAsDouble(), -0.7, 0.7), //first param = intake
-      MathUtil.clamp(m_inputIndex.getAsDouble(), -0.5, 0.5)); //second param = index
+    // m_intakeSubsystem.suck(
+    //   MathUtil.clamp(m_inputIntake.getAsDouble(), -0.7, 0.7), //first param = intake
+    //   MathUtil.clamp(m_inputIndex.getAsDouble(), -0.5, 0.5)); //second param = index
   }
 
   // Called once the command ends or is interrupted.

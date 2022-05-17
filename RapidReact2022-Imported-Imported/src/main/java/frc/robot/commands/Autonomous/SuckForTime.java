@@ -42,7 +42,8 @@ public class SuckForTime extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.suck(0.7, 0);
+    // m_intakeSubsystem.suck(0.7, 0);
+    m_intakeSubsystem.intake(0.7);
 
     // if (initialVoltage - m_intakeSubsystem.getOutputVoltage() > 1) { //test to see appropriate change
     //   finalVoltage = m_intakeSubsystem.getOutputVoltage();

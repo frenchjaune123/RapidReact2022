@@ -8,19 +8,20 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IndexCommand extends CommandBase {
   private DoubleSupplier m_inputIndex;
-  private IntakeSubsystem m_intakeSubsystem;
+  private IndexSubsystem m_indexSubsystem;
 
   /** Creates a new IndexCommand. */
-  public IndexCommand(DoubleSupplier inputIndex, IntakeSubsystem intakeSubsystem) {
+  public IndexCommand(DoubleSupplier inputIndex, IndexSubsystem indexSubsystem) {
     m_inputIndex = inputIndex;
-    m_intakeSubsystem = intakeSubsystem;
+    m_indexSubsystem = indexSubsystem;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeSubsystem);
+    addRequirements(m_indexSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +31,7 @@ public class IndexCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.index(MathUtil.clamp(m_inputIndex.getAsDouble(), -0.5, 0.5));
+    m_indexSubsystem.index(MathUtil.clamp(m_inputIndex.getAsDouble(), -0.5, 0.5));
   }
 
   // Called once the command ends or is interrupted.

@@ -23,7 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
   private final PWM m_intakeMotor;
   // private final VictorSP m_intakeMotor;
-  private final VictorSP m_indexMotor;
+  // private final VictorSP m_indexMotor;
   private final DoubleSolenoid m_intakePistons;
   private Timer m_timer;
   private boolean intakeIsIn;
@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public IntakeSubsystem() {
     // m_intakeMotor = new VictorSP(Constants.INTAKE_REDLINE);
     m_intakeMotor = new PWM(Constants.INTAKE_REDLINE);
-    m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
+    // m_indexMotor = new VictorSP(Constants.INDEX_REDLINE);
     m_timer = new Timer();
     m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, //check module type
         Constants.INTAKE_SOLENOID_DEPLOY, Constants.INTAKE_SOLENOID_RETRACT);
@@ -50,28 +50,28 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-  public void suck(double inputIntake, double inputIndex) {
-    // m_intakeMotor.set(inputIntake); //VictorSP
-    m_intakeMotor.setSpeed(inputIntake); //PWM
-    m_indexMotor.set(inputIndex);
+  // public void suck(double inputIntake, double inputIndex) {
+  //   // m_intakeMotor.set(inputIntake); //VictorSP
+  //   m_intakeMotor.setSpeed(inputIntake); //PWM
+  //   m_indexMotor.set(inputIndex);
 
-    // if (inputIntake > 0.2) {
-    //   m_intakeMotor.set(MathUtil.clamp(-inputIndex, -0.5, 0));
-    // }
-  }
+  //   // if (inputIntake > 0.2) {
+  //   //   m_intakeMotor.set(MathUtil.clamp(-inputIndex, -0.5, 0));
+  //   // }
+  // }
 
   public void intake(double inputIntake) {
     m_intakeMotor.setSpeed(inputIntake);
   }
 
-  public void index(double inputIndex) {
-    m_indexMotor.set(inputIndex);
-  }
+  // public void index(double inputIndex) {
+  //   m_indexMotor.set(inputIndex);
+  // }
 
   public void stopIntake() {
     // m_intakeMotor.set(0);
     m_intakeMotor.setSpeed(0);
-    m_indexMotor.set(0);
+    // m_indexMotor.set(0);
   }
 
   public double getOutputVoltage() {
